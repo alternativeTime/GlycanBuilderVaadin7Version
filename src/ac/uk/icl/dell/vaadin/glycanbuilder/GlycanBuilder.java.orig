@@ -1,0 +1,342 @@
+/*
+*   EuroCarbDB, a framework for carbohydrate bioinformatics
+*
+*   Copyright (c) 2006-2011, Eurocarb project, or third-party contributors as
+*   indicated by the @author tags or express copyright attribution
+*   statements applied by the authors.  
+*
+*   This copyrighted material is made available to anyone wishing to use, modify,
+*   copy, or redistribute it subject to the terms and conditions of the GNU
+*   Lesser General Public License, as published by the Free Software Foundation.
+*   A copy of this license accompanies this distribution in the file LICENSE.txt.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*   or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+*   for more details.
+*   
+*   @author David R. Damerell (david@nixbioinf.org)
+*/
+package ac.uk.icl.dell.vaadin.glycanbuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import org.eurocarbdb.application.glycanbuilder.Residue;
+import org.vaadin.damerell.canvas.BasicCanvas.ExportListener;
+import org.vaadin.navigator7.NavigableApplication;
+import org.vaadin.weelayout.WeeLayout;
+
+import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
+import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.GlycanCanvasUpdateListener;
+import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.NotationChangedListener;
+import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.ResidueHistoryListener;
+import ac.uk.icl.dell.vaadin.menu.ApplicationMenu;
+import ac.uk.icl.dell.vaadin.menu.vaadin.MenuBar.MenuItem;
+
+import com.vaadin.event.Action;
+import com.vaadin.event.Action.Handler;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Window.ResizeEvent;
+
+/**
+ * callBack=[]
+ * callBack.run=function(response){alert(response);}
+ * window.glycanCanvasExport("glycoct_condensed",callBack)
+ * 
+ * 
+ * @author david
+ *
+ */
+public class GlycanBuilder extends WeeLayout implements com.vaadin.ui.Window.ResizeListener, ResidueHistoryListener{
+	private static final long serialVersionUID=-1310424874910700087L;
+	
+	protected VaadinGlycanCanvas theCanvas;
+	protected VaadinGlycanCanvas theResidueCanvas;
+	
+	public org.eurocarbdb.application.glycanbuilder.BuilderWorkspace theWorkspace;
+	
+	private Panel theToolBarPanel;
+	private List<MenuBar.MenuItem> menuItems=new ArrayList<MenuBar.MenuItem>();
+	
+	
+	public enum GlycanBuilderMode{
+		STANDALONE(),DOCKED();
+	}
+	
+	GlycanBuilderMode glycanBuilderMode=GlycanBuilderMode.DOCKED;
+	
+	protected ApplicationMenu theAppMenu;
+
+	private MenuBar.MenuItem structureItem;
+	
+	public GlycanBuilder(ApplicationMenu appMenu){
+		super(WeeLayout.Direction.VERTICAL);
+		
+		theAppMenu=appMenu;
+		theAppMenu.setModified();
+		
+		setSizeUndefined();
+		
+		addStyleName("igg-glycan-builder");
+		
+		//CssLayout layout=new CssLayout();
+		//layout.addStyleName("igg-glycan-builder-canvas-container");
+		
+		WeeLayout layout=new WeeLayout(WeeLayout.Direction.VERTICAL);
+		layout.setSizeUndefined();
+		
+//		Panel panel=new Panel();
+//		panel.setScrollable(true);
+//		panel.setSizeUndefined();
+//		panel.setContent(layout);
+		
+		theCanvas=new VaadinGlycanCanvas();
+		theCanvas.setBackgroundColor("#CCF");
+		theCanvas.addStyleName("igg-glycan-builder-glycan-canvas");
+		theCanvas.setWidth("100%");
+		theCanvas.setHeight("100%");
+		theCanvas.enableMouseSelectionRectangle(true);
+		theCanvas.theCanvas.addResidueHistoryListener(this);	
+	
+	//	initToolBars();
+		
+		layout.addComponent(theCanvas);
+		
+		
+		addComponent(layout);
+		
+		
+		
+		theCanvas.theCanvas.addNotationListener(new NotationChangedListener() {
+			@Override
+			public void notationChanged(String notation) {
+				theCanvas.menuItemsWithResidueSelectionDependency.removeAll(structureItem.getChildren());
+				
+				theResidueCanvas.theCanvas.setNotation(notation);
+				
+				theAppMenu.getMenuBar().removeItem(structureItem);
+				menuItems.remove(structureItem);
+				
+				initStructureMenu();
+	
+				theResidueCanvas.theCanvas.fireUpdatedSelection();
+			}
+		});
+		
+		theCanvas.setName("glycanCanvas");
+		
+		theCanvas.addExportListener(new ExportListener(){
+			@Override
+			public void exportRequest(String type) {
+				if(type.equals("glycoct_condensed")){
+					theCanvas.respondToExportRequest(theCanvas.theCanvas.theDoc.toGlycoCTCondensed());
+				}else if(type.equals("glycoct")){
+					theCanvas.respondToExportRequest(theCanvas.theCanvas.theDoc.toGlycoCT());
+				}
+			}
+		});
+		
+		initFileMenu();
+		initViewMenu();
+		initStructureMenu();
+	}
+	
+	public static void removeMenuItems(com.vaadin.ui.MenuBar.MenuItem structureItem2){
+		if(structureItem2!=null){
+			for(com.vaadin.ui.MenuBar.MenuItem child:structureItem2.getChildren()){
+				structureItem2.removeChild(child);
+				removeMenuItems(child);
+			}
+		}
+		
+	}
+	
+	public GlycanCanvas getGlycanCanvas(){
+		return theCanvas.theCanvas;
+	}
+	
+	public void registerLocalResourceWatcher(LocalResourceWatcher watcher){
+		theCanvas.addLocalResourceWatcher(watcher);
+	}
+	
+	private void initToolBars(){
+		theToolBarPanel=new Panel();
+		theToolBarPanel.setContent(new CssLayout());
+		theToolBarPanel.addStyleName("igg-glycan-builder-toolbar-panel");
+		
+		NavigableApplication.getCurrentNavigableAppLevelWindow().addActionHandler(new Handler(){
+			Action actionDelete = new ShortcutAction("Delete",ShortcutAction.KeyCode.DELETE, null);
+			Action actionCopy = new ShortcutAction("Copy",ShortcutAction.KeyCode.C, new int[]{ShortcutAction.ModifierKey.CTRL});
+			Action actionPaste = new ShortcutAction("Paste",ShortcutAction.KeyCode.V, new int[]{ShortcutAction.ModifierKey.CTRL});
+			Action actionCut = new ShortcutAction("Cut",ShortcutAction.KeyCode.X, new int[]{ShortcutAction.ModifierKey.CTRL});
+			Action actionSelectAll = new ShortcutAction("Select all",ShortcutAction.KeyCode.A, new int[]{ShortcutAction.ModifierKey.CTRL});
+			Action actionUnSelectAll = new ShortcutAction("UnSelect all",ShortcutAction.KeyCode.A, new int[]{ShortcutAction.ModifierKey.CTRL,ShortcutAction.ModifierKey.SHIFT});
+			
+			@Override
+			public Action[] getActions(Object target, Object sender) {
+				return new Action[]{actionDelete,actionCopy,actionPaste,actionCut,actionSelectAll,actionUnSelectAll};
+			}
+
+			@Override
+			public void handleAction(Action action, Object sender, Object target) {
+				
+				GlycanCanvas canvas=theCanvas.theCanvas;
+				if(theCanvas.theCanvas.hasSelected()){
+					if(action==actionDelete){
+						canvas.delete();
+					}else if(action==actionCopy){
+						canvas.copy();
+					}else if(action==actionCut){
+						canvas.cut();
+					}
+				}
+				
+				if(action==actionSelectAll){
+					canvas.selectAll();
+					canvas.documentUpdated();
+				}else if(action==actionUnSelectAll){
+					canvas.resetSelection();
+					canvas.documentUpdated();
+				}else if(action==actionPaste){
+					System.err.println("Paste picked up!");
+					canvas.paste();
+				}
+			}
+		});
+		
+		theCanvas.appendGeneralToolBar(theToolBarPanel);
+		
+		theToolBarPanel.setScrollable(false);
+		
+		addComponent(theToolBarPanel);
+		
+		Panel theLinkageToolBarPanel=new Panel();
+		theLinkageToolBarPanel.setContent(new CssLayout());
+		theLinkageToolBarPanel.addStyleName("igg-glycan-builder-linkage-toolbar-panel");
+		theCanvas.appendLinkageToolBar(theLinkageToolBarPanel);
+		
+		theLinkageToolBarPanel.setScrollable(false);
+		
+		addComponent(theLinkageToolBarPanel);
+		
+		//final Panel panel=new Panel();
+		
+		HorizontalLayout canvasLayout=new HorizontalLayout();
+		canvasLayout.setWidth("100%");
+		canvasLayout.setHeight("25px");
+		
+		CssLayout layout=new CssLayout();
+		layout.addStyleName("igg-glycan-builder-canvas-addbar-container");
+		
+		theResidueCanvas=new VaadinGlycanCanvas();
+		theResidueCanvas.setBackgroundColor("#CCF");
+		theResidueCanvas.setWidth("100%");
+		theResidueCanvas.setHeight("25px");
+		theResidueCanvas.enableMouseSelectionRectangle(false);
+		theResidueCanvas.automaticHeightAdjust(false);
+		theResidueCanvas.theCanvas.theGlycanRenderer.getGraphicOptions().MARGIN_TOP=2;
+		
+		layout.addComponent(theResidueCanvas);
+		
+		//canvasLayout.addComponent(layout);
+		
+		//panel.setContent(canvasLayout);
+		//panel.setScrollable(false);
+		
+		//addComponent(theResidueCanvas);
+		addComponent(layout);
+		
+		final VaadinGlycanCanvas finalCanvas=theResidueCanvas;
+		finalCanvas.enableResidueToolBarMode();
+		
+		theResidueCanvas.theCanvas.addGlycanCanvasUpdateListener(new GlycanCanvasUpdateListener(){
+			@Override
+			public void glycanCanvasUpdated() {
+				Residue selectedResidues[]=theResidueCanvas.theCanvas.selectedResidues.toArray(new Residue[0]);
+
+				theResidueCanvas.theCanvas.selectedResidues.clear();
+				
+				theCanvas.theCanvas.setDocumentChangedEventFiring(false);
+				
+				
+				for(Residue toinsert:selectedResidues){
+					System.err.println("Selected residue: "+toinsert.getTypeName());
+					theCanvas.theCanvas.addResidueByNameToSelected(toinsert.getTypeName());
+				}
+				
+				theCanvas.theCanvas.setDocumentChangedEventFiring(true);
+				theCanvas.theCanvas.documentUpdated();
+			}
+		});
+	}
+	
+	private void initFileMenu(){
+		MenuBar.MenuItem fileMenu=theAppMenu.getFileMenu();
+		
+		theAppMenu.saveState(fileMenu, this);
+		
+		theCanvas.appendExportMenu(fileMenu);
+		theCanvas.appendImportMenu(fileMenu);
+		
+		fileMenu.setVisible(true);
+	}
+	
+	private void initStructureMenu(){
+		MenuBar dockMenuBar=theAppMenu.getMenuBar();
+		
+		if(dockMenuBar.getItems().size()>3){
+			structureItem=dockMenuBar.addItemBefore("Structure", null, null, dockMenuBar.getItems().get(2));
+		}else{
+			structureItem=dockMenuBar.addItem("Structure", null, null);
+		}
+		
+		theCanvas.appendStructureMenu(structureItem);
+		menuItems.add(structureItem);
+	}
+	
+	private void initViewMenu(){
+		MenuBar dockMenuBar=theAppMenu.getMenuBar();
+		
+		//tmp
+		MenuBar.MenuItem structureItem;
+		if(dockMenuBar.getItems().size()>2){
+			structureItem=dockMenuBar.addItemBefore("View", null, null, dockMenuBar.getItems().get(1));
+		}else{
+			structureItem=dockMenuBar.addItem("View", null, null);
+		}
+		
+		theCanvas.appendNotationMenu(structureItem);
+		menuItems.add(structureItem);
+	}
+
+	@Override
+	public void windowResized(ResizeEvent e) {
+		//getWindow().executeJavaScript("$('.gwt-PopupPanel canvas')[0].style.height=$('.v-panel-content-glycan_canvas_1')[0].style.height;");
+		//getWindow().executeJavaScript("$('.gwt-PopupPanel canvas')[0].style.width=$('.v-panel-content-glycan_canvas_1')[0].style.width;");
+	}
+
+	@Override
+	public void respondToResidueHistoryChanged(Vector<String> residueHistoryList) {
+		theResidueCanvas.setResidueHistoryList(residueHistoryList);
+		theResidueCanvas.appendResidueToolBar();
+	}
+	
+	public VaadinGlycanCanvas getVaadinGlycanCanvas(){
+		return theCanvas;
+	}
+	
+	public void onUndock(){
+		theAppMenu.restoreState(theAppMenu.getFileMenu(), this);
+		theAppMenu.getFileMenu().setVisible(false);
+		
+		for(MenuBar.MenuItem item:menuItems){
+			theAppMenu.removeMenuItem(item);
+		}
+	}
+}
