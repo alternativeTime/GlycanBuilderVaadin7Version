@@ -263,7 +263,7 @@ public class LinkageRendererCanvas extends AbstractLinkageRenderer{
 		LinkageStyle style = theLinkageStyleDictionary.getStyle(link);
 		
 		if(style.isDashed()){
-			BaseShape.paintDashedLine(theCanvas, p1.x,p1.y,p2.x,p2.y,3);
+			BaseShape.paintDashedLine(theCanvas, p1.x,p1.y,p2.x,p2.y);
 		}else{
 			theCanvas.moveTo(p1.x, p1.y);
 			theCanvas.lineTo(p2.x, p2.y);

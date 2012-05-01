@@ -429,48 +429,84 @@ public abstract class BaseShape {
 		return (r.y+(r.height/2));
 	}
 	
-	public static void paintDashedLine(BasicCanvas canvas,int x1,int y1,int x2,int y2,int gap){		
-		canvas.moveTo(x1, y1);
-		int gradient=(y2-y1)/(x2-x1);
-		
-		int xPos=x1;
-		int yPos=y1;
-		
-		int xIncrement= x2 > x1 ? 1 : -1;
-		
-		int xGap= x2 > x1 ? gap : -gap;
-		int yGap=y2 > y1 ? gap : -gap;
-		
-		while(true){
-			//System.err.println(xPos+"|"+gradient);
-			xPos+=xIncrement;
-			yPos+=xIncrement*gradient;
-			
-			boolean last=false;
-			
-			if(x1>=x2 && xPos<=x2){
-				xPos=x2; last=true;
-			}else if(x2 >= x1 && xPos>=x2){
-				xPos=x2; last=true;
-			}
-			
-			if(y1>=y2 && yPos<=y2){
-				yPos=y2; last=true;
-			}else if(y2 >= y1 && yPos>=y2){
-				yPos=y2; last=true;
-			}
-			
-			canvas.lineTo(xPos, yPos);
-			
-			xPos+=xGap;
-			yPos+=yGap;
-			
-			if(last){
-				break;
-			}else{
-				canvas.moveTo(xPos, yPos);
-			}
-		}
+	public static void paintDashedLine(BasicCanvas canvas,int x1,int y1,int x2,int y2){	
+		//This new implementation is based on the answers to the stackoverflow question below.
+		//http://stackoverflow.com/questions/4576724/dotted-stroke-in-canvas
+
+	    int dx=(x2-x1);
+	    int dy=(y2-y1);
+	    
+	    //What's the orientation of the triangle, i.e. y steps x or x steps y
+	    boolean xSlope=(Math.abs(dx) > Math.abs(dy));
+	  
+	    //get the gradient y2-y1/x2-x1 or x2-x1/y2-y1
+	    double gradient;
+	    
+	    boolean xSlopeDown=false;
+	    boolean ySlopeDown=false;
+	    if(xSlope){
+	    	gradient=dy / (double) dx;
+	    	
+	    	xSlopeDown=dx<0;
+	    }else{
+	    	gradient=dx / (double) dy;
+	    	
+	    	ySlopeDown=dy<0;
+	    }
+	    
+	    //convert to double for positioning
+	    double x=x1;
+	    double y=y1;
+	    
+	    //Initial position
+	    canvas.moveTo(x, y);
+	    
+	    //The length of the dashed line "c" is equal to the square root of a^2+b^2
+	    double dashedLineLength=Math.sqrt(dx*dx+dy*dy);
+	    
+	    //how much of the line is left to go
+	    double distRemaining=dashedLineLength;
+	    
+	    boolean penUpOperation=false;
+	    
+	    int dashLineLength=2;
+	    
+	    int numDashes=(int) (dashedLineLength / dashLineLength);
+	    
+	    if(dashedLineLength % dashLineLength >0){
+	    	numDashes++;
+	    }
+	    
+	    for(int i=0;i<numDashes;i++){
+	        double dashLength=Math.min(distRemaining, dashLineLength); //set dashLine length to either the default or what ever is left
+	        
+	        //calculate where x2 and y2 are based on c (dash length) and the gradient we need on the dashed line
+	        double step=Math.sqrt(dashLength*dashLength / (1+gradient*gradient));
+	        if(xSlope){
+	            if(xSlopeDown){
+	            	step=-step;
+	            }
+	            
+	            x+=step;
+	            y+=gradient*step;
+	        }else{
+	            if(ySlopeDown){
+	            	step=-step;
+	            }
+	            
+	            x+=gradient*step;
+	            y+=step;
+	        }
+	        
+	        if(penUpOperation){
+	        	canvas.moveTo(x, y);
+	        }else{
+	        	canvas.lineTo(x, y);
+	        }
+	        
+	       distRemaining-=dashLength;
+	       penUpOperation=!penUpOperation;
+	    }
 	}
 	
 	static public void createEnd(BasicCanvas canvas,double angle, double x, double y, double w, double h) {
