@@ -454,7 +454,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 						watcher.addLocalResource(file);
 					}
 					
-					GlycanRendererAWT renderer=new GlycanRendererAWT((AbstractGlycanRenderer)theCanvas.theGlycanRenderer);
+					GlycanRendererAWT renderer=new GlycanRendererAWT((AbstractGlycanRenderer)theCanvas.getWorkspace().getGlycanRenderer());
 					
 					SVGUtils.export(renderer,file.getPath(),theCanvas.theDoc.getStructures(),theCanvas.theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theCanvas.theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS,format);
 											
@@ -501,7 +501,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	}
 	
 	public void createAddResidueMenu(CustomMenuBar.MenuItem parent) {
-		String notation=theCanvas.theGlycanRenderer.getGraphicOptions().NOTATION;
+		String notation=theCanvas.getWorkspace().getGlycanRenderer().getGraphicOptions().NOTATION;
 		
 		CustomMenuBar.MenuItem structureMenu=parent.addItem("Add residue", null);
 
@@ -529,7 +529,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	public void createInsertResidueMenu(CustomMenuBar.MenuItem parent){
 		CustomMenuBar.MenuItem structureMenu=parent.addItem("Insert residue", null);
 		
-		String notation=theCanvas.theGlycanRenderer.getGraphicOptions().NOTATION;
+		String notation=theCanvas.getWorkspace().getGlycanRenderer().getGraphicOptions().NOTATION;
 		
 		for (String superclass : ResidueDictionary.getSuperclasses()) {
 			CustomMenuBar.MenuItem superClassMenu=structureMenu.addItem(superclass,null);
@@ -558,7 +558,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	private void createChangeResidueMenu(CustomMenuBar.MenuItem parent) {
 		CustomMenuBar.MenuItem structureMenu=parent.addItem("Change residue", null);
 
-		String notation=theCanvas.theGlycanRenderer.getGraphicOptions().NOTATION;
+		String notation=theCanvas.getWorkspace().getGlycanRenderer().getGraphicOptions().NOTATION;
 		
 		for (String superclass : ResidueDictionary.getSuperclasses()) {
 			CustomMenuBar.MenuItem superClassMenu=structureMenu.addItem(superclass,null);
@@ -697,7 +697,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	}
 	
 	public void enableResidueToolBarMode(){
-		theCanvas.theGlycanRenderer.setRenderMode(GlycanRendererMode.TOOLBAR);
+		theCanvas.getWorkspace().getGlycanRenderer().setRenderMode(GlycanRendererMode.TOOLBAR);
 		appendResidueToolBar();
 	}
 	
@@ -1272,7 +1272,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	private void updateCanvasHeight(){
 		if(automaticallyAdjustHeight){
 			int proposedHeight=theCanvas.getHeight();
-			if(theCanvas.theGlycanRenderer.getRenderMode()==GlycanRendererMode.TOOLBAR){
+			if(theCanvas.getWorkspace().getGlycanRenderer().getRenderMode()==GlycanRendererMode.TOOLBAR){
 				proposedHeight+=2;
 			}else{
 				proposedHeight+=100;
@@ -1416,5 +1416,13 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 
 	public void setWorkspace(BuilderWorkspace workspace) {
 		theCanvas.setWorkspace(workspace);
+	}
+	
+	public void setNotation(String notation){
+		theCanvas.setNotation(notation);
+	}
+
+	public BuilderWorkspace getWorkspace() {
+		return theCanvas.getWorkspace();
 	}
 }

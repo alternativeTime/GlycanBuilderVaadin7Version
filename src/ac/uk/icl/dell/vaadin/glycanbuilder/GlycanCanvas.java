@@ -71,7 +71,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 	protected HashSet<Linkage> selectedLinkages;
 	protected HashSet<Residue> selectedResidues;
 	
-	protected GlycanRenderer theGlycanRenderer;
+	//protected GlycanRenderer theGlycanRenderer;
 	
 	protected org.eurocarbdb.application.glycanbuilder.BuilderWorkspace theWorkspace;
 	protected org.eurocarbdb.application.glycanbuilder.GlycanDocument theDoc;
@@ -156,7 +156,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 		
 		theWorkspace=new org.eurocarbdb.application.glycanbuilder.BuilderWorkspace(glycanRenderer);
 		
-		theGlycanRenderer=theWorkspace.getGlycanRenderer();
+		//theGlycanRenderer=theWorkspace.getGlycanRenderer();
 		
 		posManager = new PositionManager();
 		theBBoxManager = new BBoxManager();
@@ -173,6 +173,9 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 	
 	public void setNotation(String notation) {
 		theWorkspace.setNotation(notation);
+		
+		//theGlycanRenderer=theWorkspace.getGlycanRenderer();
+		
 		documentUpdated();
 		fireNotationChanged();
 	}
@@ -186,6 +189,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 	}
 	
 	public void addResidueByNameToSelected(String name){
+		GlycanRenderer theGlycanRenderer=theWorkspace.getGlycanRenderer();
 		if(theGlycanRenderer.getRenderMode()==GlycanRendererMode.TOOLBAR || selectedResidues.size()==0){
 			try{
 				Residue toAdd = ResidueDictionary.newResidue(name);
@@ -320,7 +324,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 		theBBoxManager = new BBoxManager();
 		
 		if(!theDoc.isEmpty()){
-			theGlycanRenderer.computeBoundingBoxes(theDoc.getStructures(), theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);
+			theWorkspace.getGlycanRenderer().computeBoundingBoxes(theDoc.getStructures(), theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);
 
 			if(thePaintable instanceof CanvasPaintable){
 				if(selectionRedraw){
@@ -348,7 +352,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 			}
 			
 			for(Glycan glycan:theDoc.getStructures()){
-				theGlycanRenderer.paint(thePaintable,glycan, selectedResidues, selectedLinkages, theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);
+				theWorkspace.getGlycanRenderer().paint(thePaintable,glycan, selectedResidues, selectedLinkages, theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);
 			}
 		}
 		
@@ -414,7 +418,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 	public void copy() {
 		Collection<Glycan> sel = theDoc.extractView(selectedResidues);
 		
-		clipBoard=new GlycanSelection(theGlycanRenderer, sel);
+		clipBoard=new GlycanSelection(theWorkspace.getGlycanRenderer(), sel);
 	}
 
 	/**
@@ -628,6 +632,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 			}
 		}
 		
+		GlycanRenderer theGlycanRenderer=theWorkspace.getGlycanRenderer();
 		if(theGlycanRenderer.getRenderMode()!=GlycanRendererMode.TOOLBAR){
 			height=height+theWorkspace.getGraphicOptions().MARGIN_TOP+theWorkspace.getGraphicOptions().MARGIN_BOTTOM+theWorkspace.getGraphicOptions().MASS_TEXT_SPACE;
 		}
@@ -656,7 +661,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 	}
 	
 	public void addResidueToHistory(String typeName){
-		if(theGlycanRenderer.getRenderMode()==GlycanRendererMode.DRAWING && !residueTypeHistory.contains(typeName)){
+		if(theWorkspace.getGlycanRenderer().getRenderMode()==GlycanRendererMode.DRAWING && !residueTypeHistory.contains(typeName)){
 			int maxResidues=5;
 			if(residueTypeHistoryList.size() >maxResidues){
 				residueTypeHistory.remove(residueTypeHistoryList.remove(0));
@@ -865,9 +870,9 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 		return selectedResidues;
 	}
 	
-	public GlycanRenderer getTheGlycanRenderer() {
-		return theGlycanRenderer;
-	}
+//	public GlycanRenderer getTheGlycanRenderer() {
+//		return theGlycanRenderer;
+//	}
 	
 	/**
 	 * Add a repeating unit containing the selected residues. If the end point
@@ -1085,6 +1090,5 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 
 	public void setWorkspace(BuilderWorkspace workspace) {
 		theWorkspace=workspace;
-		theGlycanRenderer=theWorkspace.getGlycanRenderer();
 	}
 }

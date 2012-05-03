@@ -72,7 +72,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 	protected VaadinGlycanCanvas theCanvas;
 	protected VaadinGlycanCanvas theResidueCanvas;
 	
-	public org.eurocarbdb.application.glycanbuilder.BuilderWorkspace theWorkspace;
+	//public org.eurocarbdb.application.glycanbuilder.BuilderWorkspace theWorkspace;
 	
 	protected Panel theToolBarPanel;
 	protected List<CustomMenuBar.MenuItem> menuItems=new ArrayList<CustomMenuBar.MenuItem>();
@@ -292,7 +292,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 		//theResidueCanvas.setWidth("100%");
 		
 		theResidueCanvas.enableMouseSelectionRectangle(false);
-		theResidueCanvas.theCanvas.theGlycanRenderer.getGraphicOptions().MARGIN_TOP=2;
+		theResidueCanvas.theCanvas.getWorkspace().getGlycanRenderer().getGraphicOptions().MARGIN_TOP=2;
 		
 		VerticalLayout layout=new VerticalLayout();
 		layout.setHeight("30px");
@@ -396,8 +396,11 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 	}
 	
 	public void setWorkspace(BuilderWorkspace workspace){
-		theWorkspace=workspace;
-		theCanvas.setWorkspace(theWorkspace);
+		theCanvas.setWorkspace(workspace);
+	}
+	
+	public void setNotation(String notation){
+		theCanvas.setNotation(notation);
 	}
 	
 	public Panel getGeneralToolBar(){
