@@ -31,7 +31,7 @@ import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.Paintable;
 import org.eurocarbdb.application.glycanbuilder.PositionManager;
 import org.eurocarbdb.application.glycanbuilder.Residue;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 
 public class GlycanRendererCanvas extends AbstractGlycanRenderer{
 	

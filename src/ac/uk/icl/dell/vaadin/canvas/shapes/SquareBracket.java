@@ -20,7 +20,7 @@
 package ac.uk.icl.dell.vaadin.canvas.shapes;
 
 import org.eurocarbdb.application.glycanbuilder.ResidueStyle;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 import org.vaadin.hezamu.canvas.Canvas;
 
 public class SquareBracket extends BaseShape{

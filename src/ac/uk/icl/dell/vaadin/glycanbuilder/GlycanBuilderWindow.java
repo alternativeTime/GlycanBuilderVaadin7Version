@@ -21,23 +21,28 @@ package ac.uk.icl.dell.vaadin.glycanbuilder;
 
 
 import ac.uk.icl.dell.vaadin.SimpleFileMenu;
+import ac.uk.icl.dell.vaadin.navigator7.pages.GlycanBuilderPage;
 
-import com.vaadin.Application;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.UI;
 
-public class GlycanBuilderWindow extends Application{
+@Theme("ucdb_2011theme")
+public class GlycanBuilderWindow extends UI{
 	private static final long serialVersionUID=-4407090778568443024L;
 
 	@Override
-	public void init(){
-		Window mainWindow=new Window();
-		setMainWindow(mainWindow);
-		setTheme("ucdb_2011theme");
+	public void init(VaadinRequest request){
 		
-		SimpleFileMenu menu=new SimpleFileMenu();
-		
-		CustomLayout layout=new CustomLayout("header_content_footer_layout");
-		layout.addComponent(menu, "header");
+		GlycanBuilderPage glycanBuilderPage = new GlycanBuilderPage();
+				
+		//CustomLayout layout=new CustomLayout("header_content_footer_layout");
+		//setContent(layout);
+		//SimpleFileMenu menu=new SimpleFileMenu();
+		//layout.addComponent(menu, "header");
+		setContent(glycanBuilderPage);
 	}
 }

@@ -30,7 +30,7 @@ import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.GlycanParserFactory;
 import org.eurocarbdb.application.glycanbuilder.LogUtils;
 import org.eurocarbdb.application.glycanbuilder.Residue;
-import org.vaadin.damerell.canvas.BasicCanvas.ExportListener;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 import org.vaadin.navigator7.NavigableApplication;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;

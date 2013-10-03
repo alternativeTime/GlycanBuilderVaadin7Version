@@ -5,20 +5,15 @@
 		<description>
 		Vaadin production mode</description>
 		<param-name>productionMode</param-name>
-		<param-value>true</param-value>
+		<param-value>false</param-value>
 	</context-param>
 	<servlet>
 		<servlet-name>Glycanbuilder Application</servlet-name>
-		<servlet-class>ac.uk.icl.dell.vaadin.navigator7.IGGApplicationServlet</servlet-class>
+		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
 		<init-param>
-			<description>Vaadin application class to start</description>
-			<param-name>application</param-name>
-			<param-value>ac.uk.icl.dell.vaadin.navigator7.IGGApplication</param-value>
-		</init-param>
-		<init-param>
-			<description>Navigator7 WebApplication class to start (optionnal)</description>
-			<param-name>webApplication</param-name>
-			<param-value>ac.uk.icl.dell.vaadin.navigator7.IGGWebApplication</param-value>
+			<description>Vaadin UI class to use</description>
+			<param-name>UI</param-name>
+			<param-value>ac.uk.icl.dell.vaadin.glycanbuilder.GlycanBuilderWindow</param-value>
 		</init-param>
 		<init-param>
 			<description>Application widgetset</description>

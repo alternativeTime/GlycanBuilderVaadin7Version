@@ -1,6 +1,6 @@
 package ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.client.ui;
 
-import com.vaadin.terminal.gwt.client.ui.VMenuBar;
+import com.vaadin.client.ui.VMenuBar;
 
 
 /**

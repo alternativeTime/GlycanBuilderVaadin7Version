@@ -22,7 +22,7 @@ package ac.uk.icl.dell.vaadin.glycanbuilder;
 import java.awt.Graphics2D;
 
 import org.eurocarbdb.application.glycanbuilder.Paintable;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 
 public class CanvasPaintable implements Paintable{
 	BasicCanvas canvas;

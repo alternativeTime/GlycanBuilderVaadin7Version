@@ -52,11 +52,9 @@ import org.eurocarbdb.application.glycanbuilder.ResidueType;
 import org.eurocarbdb.application.glycanbuilder.SVGUtils;
 import org.eurocarbdb.application.glycanbuilder.TerminalDictionary;
 import org.eurocarbdb.application.glycanbuilder.TerminalType;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 import org.vaadin.damerell.canvas.font.Font;
 import org.vaadin.damerell.canvas.font.Font.FONT;
-import org.vaadin.weelayout.WeeLayout;
-import org.vaadin.weelayout.WeeLayout.Direction;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.ProducesLocalResources;
@@ -65,7 +63,6 @@ import ac.uk.icl.dell.vaadin.menu.CustomMenuBar;
 import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
 import ac.uk.icl.dell.vaadin.navigator7.pages.buildingblocks.NavigatorFileUpload;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.terminal.DownloadStream;
@@ -92,7 +89,7 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.SelectionListener, GlycanCanvas.GlycanCanvasUpdateListener, GlycanCanvas.SelectionChangeListener, ProducesLocalResources, MassOptionListener{//, DimensionEventListener{
+public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.SelectionListener, GlycanCanvas.GlycanCanvasUpdateListener, GlycanCanvas.SelectionChangeListener, ProducesLocalResources, MassOptionListener{
 	private static final long serialVersionUID=-4055030966241059255L;
 	
 	private List<Component> componentsWithResidueSelectionDependency;
@@ -264,10 +261,11 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 			}
 		});
 		
-		WeeLayout layout=new WeeLayout(Direction.VERTICAL);
+		VerticalLayout layout=new VerticalLayout();
 		layout.setSizeFull();
 		importFromStringWindow.setContent(layout);
-		layout.addComponent(importStructureStringDialog,Alignment.MIDDLE_CENTER);
+		layout.addComponent(importStructureStringDialog);
+		layout.setComponentAlignment(importStructureStringDialog, Alignment.MIDDLE_CENTER);
 
 		importFromStringWindow.center();
 		importFromStringWindow.setVisible(false);
@@ -1019,7 +1017,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	public void forceLinkagePopRepaint(){
 		registerLinkageListeners();
 		
-		WeeLayout toolBar=new WeeLayout(Direction.HORIZONTAL);
+		HorizontalLayout toolBar=new HorizontalLayout();
 		toolBar.setWidth("100%");
 		
 		HorizontalLayout popupLayout = new HorizontalLayout();
@@ -1293,7 +1291,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		if(theCanvas.getCurrentResidue()!=null && selectedResidue==theCanvas.getCurrentResidue() && selectedResidue.isRepetition()){
 			final Window window=new Window("Repeatition options");
 			
-			WeeLayout layout=new WeeLayout(org.vaadin.weelayout.WeeLayout.Direction.VERTICAL);
+			VerticalLayout layout=new VerticalLayout();
 			
 			final TextField minRep=new TextField("Minimum");
 			final TextField maxRep=new TextField("Maximum");
@@ -1343,14 +1341,14 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 				}
 			});
 			
-			layout.addComponent(minRep, Alignment.TOP_CENTER);
-			layout.addComponent(maxRep, Alignment.MIDDLE_CENTER);
+			layout.addComponent(minRep);
+			layout.addComponent(maxRep);
 			
-			WeeLayout buttonLayout=new WeeLayout(Direction.HORIZONTAL);
-			buttonLayout.addComponent(okBut, Alignment.TOP_CENTER);
-			buttonLayout.addComponent(cancelBut, Alignment.TOP_CENTER);
+			HorizontalLayout buttonLayout=new HorizontalLayout();
+			buttonLayout.addComponent(okBut);
+			buttonLayout.addComponent(cancelBut);
 			
-			layout.addComponent(buttonLayout, Alignment.BOTTOM_CENTER);
+			layout.addComponent(buttonLayout);
 			
 			window.center();
 			window.getContent().addComponent(layout);

@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
-import com.vaadin.terminal.Resource;
-import com.vaadin.terminal.gwt.client.ui.VMenuBar;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
+import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.Connect;
+import com.vaadin.client.ui.VMenuBar;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.ClientWidget;
-import com.vaadin.ui.ClientWidget.LoadStyle;
 
 /**
  * <p>
@@ -40,8 +39,8 @@ import com.vaadin.ui.ClientWidget.LoadStyle;
  * </p>
  */
 @SuppressWarnings("serial")
-
-@ClientWidget(value=ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.client.ui.VCustomMenuBar.class,loadStyle = LoadStyle.LAZY)
+//@Connect(ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.client.ui.VCustomMenuBar.class)
+//@ClientWidget(value=ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.client.ui.VCustomMenuBar.class,loadStyle = LoadStyle.LAZY)
 public class CustomMenuBar extends AbstractComponent{
 	    // Items of the top-level menu
 	    private List<MenuItem> menuItems;

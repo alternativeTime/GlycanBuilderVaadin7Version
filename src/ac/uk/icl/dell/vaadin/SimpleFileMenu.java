@@ -19,11 +19,11 @@
 */
 package ac.uk.icl.dell.vaadin;
 
-import org.vaadin.navigator7.NavigableApplication;
-
 import ac.uk.icl.dell.vaadin.menu.ApplicationMenu;
 import ac.uk.icl.dell.vaadin.menu.CustomMenuBar;
 import ac.uk.icl.dell.vaadin.menu.DynamicMenuImpl;
+
+import com.vaadin.ui.UI;
 
 public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 	private static final long serialVersionUID=4968428219495753712L;
@@ -73,7 +73,7 @@ public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 
 			@Override
 			public void menuSelected(MenuItem selectedItem){
-				NavigableApplication.getCurrent().close();
+				UI.getCurrent().close();
 			}
 		});
 	}

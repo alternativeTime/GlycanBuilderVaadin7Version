@@ -21,8 +21,6 @@ package ac.uk.icl.dell.vaadin.navigator7.common;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 

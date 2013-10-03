@@ -22,9 +22,6 @@ package ac.uk.icl.dell.vaadin.glycanbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vaadin.weelayout.WeeLayout;
-import org.vaadin.weelayout.WeeLayout.Direction;
-
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -34,6 +31,7 @@ import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
+import com.vaadin.ui.VerticalLayout;
 
 public class ImportStructureFromStringDialog extends Panel {
 	private static final long serialVersionUID=-5458440361659452562L;
@@ -42,14 +40,14 @@ public class ImportStructureFromStringDialog extends Panel {
 	GlycanCanvas theCanvas;
 	RichTextArea sequenceInputField;
 	NativeButton ok;
-	WeeLayout layout;
+	VerticalLayout layout;
 	
 	List<UserInputEndedListener> userInputEndedListeners=new ArrayList<UserInputEndedListener>();
 	
 	ImportStructureFromStringDialog(GlycanCanvas canvas){
 		theCanvas=canvas;
 		
-		layout=new WeeLayout(Direction.VERTICAL);
+		layout=new VerticalLayout();
 		
 		setContent(layout);
 		

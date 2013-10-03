@@ -21,37 +21,33 @@ package ac.uk.icl.dell.vaadin;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class MessageDialogBox extends Window{
 	private static final long serialVersionUID=5330733385455292529L;
 
-	public MessageDialogBox(String message,Window parent){
-		init("",message,parent);
+	public MessageDialogBox(String message){
+		init("",message);
 	}
 	
-	public MessageDialogBox(String title, String message,Window parent){
-		init(title,message,parent);
+	public MessageDialogBox(String title, String message){
+		init(title,message);
 	}
 	
-	public void init(String title, String message,Window parent){
-		Label messageLabel=new Label(message);
+	public void init(String title, String message){
+    	Label messageLabel=new Label(message);	    		
+    	Window window = new Window(title);
 		
-		Panel panel=new Panel();
+		VerticalLayout windowContent = new VerticalLayout();
+		windowContent.addComponent(messageLabel);
+		windowContent.setMargin(true);
+		windowContent.setComponentAlignment(messageLabel, Alignment.MIDDLE_CENTER);
+		window.setContent(windowContent);
+		window.setSizeUndefined(); //sets window to be the size of the content
 		
-		panel.getContent().addComponent(messageLabel);
-		((VerticalLayout)panel.getContent()).setComponentAlignment(messageLabel, Alignment.MIDDLE_CENTER);
-		
-		getContent().addComponent(panel);
-		
-		setCaption(title);
-		
-		parent.addWindow(this);
-		
-		getContent().setWidth("400px");
-		
-		center();
+		window.center();
+		UI.getCurrent().addWindow(window);
 	}
 }

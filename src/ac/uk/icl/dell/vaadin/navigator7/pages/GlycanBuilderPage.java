@@ -19,41 +19,60 @@
 */
 package ac.uk.icl.dell.vaadin.navigator7.pages;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
-import org.vaadin.navigator7.Page;
-import org.vaadin.navigator7.window.PageWrapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import ac.uk.icl.dell.vaadin.SimpleFileMenu;
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanBuilder;
-import ac.uk.icl.dell.vaadin.menu.CustomMenuBar;
-import ac.uk.icl.dell.vaadin.navigator7.IGGAppLevelWindow;
-import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
 
-import com.vaadin.terminal.ExternalResource;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ClientMethodInvocation;
+import com.vaadin.server.ErrorHandler;
+import com.vaadin.server.Extension;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ServerRpcManager;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinResponse;
+import com.vaadin.shared.communication.SharedState;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
-@Page
-public class GlycanBuilderPage implements PageWrapper{
-	VerticalLayout layout;
+public class GlycanBuilderPage extends CustomComponent
+{	
+	private static final long serialVersionUID = -7879211835958495404L;
 	
 	GlycanBuilder theGlycanBuilder;
 	
 	public GlycanBuilderPage(){
-		layout=new VerticalLayout();
-		layout.setSizeFull();
-		
-		IGGAppLevelWindow window=(IGGAppLevelWindow)IGGApplication.getCurrentNavigableAppLevelWindow();
-		theGlycanBuilder=new GlycanBuilder(window.getApplicationMenu());
+		final CustomLayout layout = new CustomLayout("header_content_footer");
+		//SimpleFileMenu menu=new SimpleFileMenu();
+		//layout.addComponent(menu, "header");
+
+	
+		//IGGAppLevelWindow window=(IGGAppLevelWindow)IGGApplication.getCurrentNavigableAppLevelWindow();
+//		theGlycanBuilder=new GlycanBuilder(window.getApplicationMenu());
+	
+		layout.addComponent(new Label("hey we are on the page"),"content");
+		setCompositionRoot(layout);
+		setSizeFull();
+	
 	}
 
-	@Override
-	public Component getComponent() {
-		return theGlycanBuilder.getComponent();
-	}
+//	@Override
+//	public Component getComponent() {
+//		return theGlycanBuilder.getComponent();
+	//}
 	
 	
 	

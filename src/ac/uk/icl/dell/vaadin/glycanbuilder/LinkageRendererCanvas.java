@@ -40,7 +40,7 @@ import org.eurocarbdb.application.glycanbuilder.LinkageStyle;
 import org.eurocarbdb.application.glycanbuilder.Paintable;
 import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.TextUtils;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 
 import ac.uk.icl.dell.vaadin.canvas.shapes.BaseShape;
 

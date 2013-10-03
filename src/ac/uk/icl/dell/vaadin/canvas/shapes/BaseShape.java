@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.eurocarbdb.application.glycanbuilder.ResidueStyle;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 import org.vaadin.hezamu.canvas.Canvas;
 
 public abstract class BaseShape {

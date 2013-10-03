@@ -35,7 +35,7 @@ import org.eurocarbdb.application.glycanbuilder.ResAngle;
 import org.eurocarbdb.application.glycanbuilder.Residue;
 import org.eurocarbdb.application.glycanbuilder.ResidueStyle;
 import org.eurocarbdb.application.glycanbuilder.ResidueType;
-import org.vaadin.damerell.canvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 
 import ac.uk.icl.dell.vaadin.canvas.shapes.Bracket;
 import ac.uk.icl.dell.vaadin.canvas.shapes.Circle;
