@@ -23,8 +23,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.vaadin.ui.MenuBar;
 
-public abstract class DynamicMenuImpl extends CustomMenuBar implements DynamicMenu{
+
+public abstract class DynamicMenuImpl extends MenuBar implements DynamicMenu{
 	private static final long serialVersionUID=-1297565156689183635L;
 	protected boolean modified=false;
 	

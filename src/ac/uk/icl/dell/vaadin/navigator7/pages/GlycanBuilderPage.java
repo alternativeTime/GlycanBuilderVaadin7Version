@@ -56,8 +56,8 @@ public class GlycanBuilderPage extends CustomComponent
 	
 	public GlycanBuilderPage(){
 		final CustomLayout layout = new CustomLayout("header_content_footer");
-		//SimpleFileMenu menu=new SimpleFileMenu();
-		//layout.addComponent(menu, "header");
+		SimpleFileMenu menu=new SimpleFileMenu();
+		layout.addComponent(menu, "header");
 
 	
 		//IGGAppLevelWindow window=(IGGAppLevelWindow)IGGApplication.getCurrentNavigableAppLevelWindow();

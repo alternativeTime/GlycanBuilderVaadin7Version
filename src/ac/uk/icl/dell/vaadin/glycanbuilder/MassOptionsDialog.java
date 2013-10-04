@@ -28,6 +28,7 @@ import org.eurocarbdb.application.glycanbuilder.MassOptions;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button.ClickEvent;
@@ -36,8 +37,8 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 
 public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.MassInput{
@@ -251,45 +252,45 @@ public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.
 		otherNameField.setEnabled(enable);
 	}
 	
-	Select isotopeSelect;
-	Select derivatizationSelect;
-	Select reducingEndSelect;
+	NativeSelect isotopeSelect;
+	NativeSelect derivatizationSelect;
+	NativeSelect reducingEndSelect;
 	
 	TextField otherNameField;
 	TextField otherMassField;
 	
 	CheckBox negativeModeField;
 	
-	Select hIonCountSelect, exHIonCountSelect;
-	Select naIonCountSelect, exNAIonCountSelect;
-	Select liIonCountSelect, exLIIonCountSelect;
-	Select kIonCountSelect, exKIonCountSelect;
-	Select clIonCountSelect, exClIonCountSelect;
-	Select h2po4IonCountSelect, exH2po4IonCountSelect;
+	NativeSelect hIonCountSelect, exHIonCountSelect;
+	NativeSelect naIonCountSelect, exNAIonCountSelect;
+	NativeSelect liIonCountSelect, exLIIonCountSelect;
+	NativeSelect kIonCountSelect, exKIonCountSelect;
+	NativeSelect clIonCountSelect, exClIonCountSelect;
+	NativeSelect h2po4IonCountSelect, exH2po4IonCountSelect;
 	private MassOptionsConfigurator config;
 	
 	@Override
 	public void initComponents() {
-		isotopeSelect=new Select();
+		isotopeSelect=new NativeSelect();
 		isotopeSelect.addStyleName("igg-mass-options-panel-item");
 		isotopeSelect.setNullSelectionAllowed(false);
 		isotopeSelect.setNewItemsAllowed(false);
 		isotopeSelect.setWidth("120px");
 		
-		derivatizationSelect=new Select();
+		derivatizationSelect=new NativeSelect();
 		derivatizationSelect.addStyleName("igg-mass-options-panel-item");
 		derivatizationSelect.setNullSelectionAllowed(false);
 		derivatizationSelect.setNewItemsAllowed(false);
 		derivatizationSelect.setWidth("120px");
 		
-		reducingEndSelect=new Select();
+		reducingEndSelect=new NativeSelect();
 		reducingEndSelect.addStyleName("igg-mass-options-panel-item");
 		reducingEndSelect.setNullSelectionAllowed(false);
 		reducingEndSelect.setImmediate(true);
 		reducingEndSelect.setNewItemsAllowed(false);
 		reducingEndSelect.setWidth("120px");
 		
-		reducingEndSelect.addListener(new Property.ValueChangeListener() {
+		reducingEndSelect.addValueChangeListener(new Property.ValueChangeListener() {
 			private static final long serialVersionUID=1067195208212460144L;
 
 			@Override
@@ -316,57 +317,57 @@ public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.
 		negativeModeField=new CheckBox();
 		negativeModeField.addStyleName("igg-mass-options-panel-item");
 	
-		hIonCountSelect=new Select("#H ions");
+		hIonCountSelect=new NativeSelect("#H ions");
 		hIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		hIonCountSelect.setNewItemsAllowed(false);
 		hIonCountSelect.setWidth("120px");
 		
-		naIonCountSelect=new Select("#Na ions");
+		naIonCountSelect=new NativeSelect("#Na ions");
 		naIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		naIonCountSelect.setNewItemsAllowed(false);
 		naIonCountSelect.setWidth("120px");
 		
-		exNAIonCountSelect=new Select("ext. #Na ions");
+		exNAIonCountSelect=new NativeSelect("ext. #Na ions");
 		exNAIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		exNAIonCountSelect.setNewItemsAllowed(false);
 		exNAIonCountSelect.setWidth("120px");
 		
-		liIonCountSelect=new Select("#Li ions");
+		liIonCountSelect=new NativeSelect("#Li ions");
 		liIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		liIonCountSelect.setNewItemsAllowed(false);
 		liIonCountSelect.setWidth("120px");
 		
-		exLIIonCountSelect=new Select("ext. #Li ions");
+		exLIIonCountSelect=new NativeSelect("ext. #Li ions");
 		exLIIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		exLIIonCountSelect.setNewItemsAllowed(false);
 		exLIIonCountSelect.setWidth("120px");
 		
-		kIonCountSelect=new Select("#K ions");
+		kIonCountSelect=new NativeSelect("#K ions");
 		kIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		kIonCountSelect.setNewItemsAllowed(false);
 		kIonCountSelect.setWidth("120px");
 		
-		exKIonCountSelect=new Select("ext. #K ions");
+		exKIonCountSelect=new NativeSelect("ext. #K ions");
 		exKIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		exKIonCountSelect.setNewItemsAllowed(false);
 		exKIonCountSelect.setWidth("120px");
 		
-		clIonCountSelect=new Select("#Cl ions");
+		clIonCountSelect=new NativeSelect("#Cl ions");
 		clIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		clIonCountSelect.setNewItemsAllowed(false);
 		clIonCountSelect.setWidth("120px");
 		
-		exClIonCountSelect=new Select("ext. #Cl ions");
+		exClIonCountSelect=new NativeSelect("ext. #Cl ions");
 		exClIonCountSelect.addStyleName("igg-mass-options-panel-item");
 		exClIonCountSelect.setNewItemsAllowed(false);
 		exClIonCountSelect.setWidth("120px");
 		
-		h2po4IonCountSelect=new Select("#H2PO4 ions");
+		h2po4IonCountSelect=new NativeSelect("#H2PO4 ions");
 		h2po4IonCountSelect.addStyleName("igg-mass-options-panel-item");
 		h2po4IonCountSelect.setNewItemsAllowed(false);
 		h2po4IonCountSelect.setWidth("120px");
 		
-		exH2po4IonCountSelect=new Select("ext. #H2PO4 ions");
+		exH2po4IonCountSelect=new NativeSelect("ext. #H2PO4 ions");
 		exH2po4IonCountSelect.addStyleName("igg-mass-options-panel-item");
 		exH2po4IonCountSelect.setNewItemsAllowed(false);
 		exH2po4IonCountSelect.setWidth("120px");
@@ -401,7 +402,7 @@ public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.
 		int row=5;
 		
 		{
-			Label divider=new Label("<hr/>",Label.CONTENT_XHTML);
+			Label divider=new Label("<hr/>", ContentMode.HTML);
 		
 			layout.addComponent(divider,0,row,2,row++);
 		}
@@ -424,7 +425,7 @@ public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.
 		layout.addComponent(exKIonCountSelect,1,row,1,row++);
 		
 		{
-			Label divider=new Label("<hr/>",Label.CONTENT_XHTML);
+			Label divider=new Label("<hr/>", ContentMode.HTML);
 		
 			layout.addComponent(divider,0,row,2,row++);
 		}
@@ -438,7 +439,7 @@ public class MassOptionsDialog extends Panel implements MassOptionsConfigurator.
 		layout.addComponent(exH2po4IonCountSelect,1,row,1,row++);
 		
 		NativeButton update=new NativeButton("Apply mass options");
-		update.addListener(new ClickListener(){
+		update.addClickListener(new ClickListener(){
 			private static final long serialVersionUID=-6188200798103156691L;
 
 			@Override

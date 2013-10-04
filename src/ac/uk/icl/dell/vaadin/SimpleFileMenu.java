@@ -20,9 +20,9 @@
 package ac.uk.icl.dell.vaadin;
 
 import ac.uk.icl.dell.vaadin.menu.ApplicationMenu;
-import ac.uk.icl.dell.vaadin.menu.CustomMenuBar;
 import ac.uk.icl.dell.vaadin.menu.DynamicMenuImpl;
 
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
 
 public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
@@ -35,11 +35,12 @@ public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 	private MenuItem restartFileMenuItem;
 	
 	public SimpleFileMenu(){
+		super();
 		setup();
 	}
 
 	@Override
-	public CustomMenuBar.MenuItem getFileMenu(){
+	public MenuItem getFileMenu(){
 		return fileMenuItem;
 	}
 
@@ -54,7 +55,7 @@ public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 	}
 
 	@Override
-	public CustomMenuBar getMenuBar() {
+	public MenuBar getMenuBar() {
 		return this;
 	}
 
@@ -76,6 +77,8 @@ public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 				UI.getCurrent().close();
 			}
 		});
+		
+		setWidth(100.0f, Unit.PERCENTAGE);
 	}
 
 	@Override

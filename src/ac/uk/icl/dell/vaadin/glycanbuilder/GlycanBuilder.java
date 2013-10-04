@@ -39,8 +39,6 @@ import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.GlycanCanvasUpdateListen
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.NotationChangedListener;
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.ResidueHistoryListener;
 import ac.uk.icl.dell.vaadin.menu.ApplicationMenu;
-import ac.uk.icl.dell.vaadin.menu.CustomMenuBar;
-import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
 
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
@@ -49,6 +47,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.ResizeEvent;
@@ -75,7 +74,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 	//public org.eurocarbdb.application.glycanbuilder.BuilderWorkspace theWorkspace;
 	
 	protected Panel theToolBarPanel;
-	protected List<CustomMenuBar.MenuItem> menuItems=new ArrayList<CustomMenuBar.MenuItem>();
+	protected List<MenuItem> menuItems=new ArrayList<MenuItem>();
 	
 	
 	public enum GlycanBuilderMode{
@@ -86,9 +85,9 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 	
 	protected ApplicationMenu theAppMenu;
 
-	private CustomMenuBar.MenuItem structureItem;
+	private MenuItem structureItem;
 
-	private CustomMenuBar.MenuItem fileMenu;
+	private MenuItem fileMenu;
 	
 	public GlycanBuilder(){
 		this(menu=new SimpleFileMenu());
@@ -337,7 +336,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 		fileMenu.setVisible(true);
 	}
 	
-	public CustomMenuBar.MenuItem getFileMenu(){
+	public MenuItem getFileMenu(){
 		return fileMenu;
 	}
 	
@@ -355,7 +354,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 	}
 	
 	private void initViewMenu(){
-		CustomMenuBar.MenuItem structureItem=theAppMenu.getViewMenu();
+		MenuItem structureItem=theAppMenu.getViewMenu();
 		
 		theAppMenu.getViewMenu().setVisible(true);
 		
@@ -386,7 +385,7 @@ public class GlycanBuilder implements com.vaadin.ui.Window.ResizeListener, Resid
 		theAppMenu.restoreState(theAppMenu.getFileMenu(), this);
 		theAppMenu.getFileMenu().setVisible(false);
 		
-		for(CustomMenuBar.MenuItem item:menuItems){
+		for(MenuItem item:menuItems){
 			theAppMenu.removeMenuItem(item);
 		}
 	}
