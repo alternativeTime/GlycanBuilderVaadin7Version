@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: GlycanBuilder
-Implementation-Version: 1.0.0
-Vaadin-Package-Version: 1
-Vaadin-Widgetsets: ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.Glyca
- nbuilderWidgetset
-Class-Path: 
-
