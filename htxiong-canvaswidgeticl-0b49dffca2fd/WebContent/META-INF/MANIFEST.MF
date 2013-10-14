@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Title: EnhancedCanvas
+Implementation-Version: 1.0.1
+Vaadin-Package-Version: 1
+Vaadin-Widgetsets: ac.uk.icl.dell.gwt.EnhancedcanvasWidgetset, org.vaa
+ din.hezamu.canvas.widgetset.CanvastestWidgetset
+Class-Path: 
+

@@ -1,0 +1,54 @@
+Summary: Canvas widget
+Description:
+A widget that wraps the GWTCanvas API to be used in the server side. Also includes a rudimentary mouse listener API for catching clicks on the canvas.
+
+(NOTE: Will upload a ZIP package when Directory is fixed to accept them)
+
+Highlights
+- Screenshot 
+- Code example
+// Draw some arcs and circles
+canvas.saveContext();
+canvas.clear();
+canvas.translate(30, 70);
+canvas.setFillStyle("#f0f");
+canvas.setColorStrokeStyle("#0ff");
+canvas.setLineWidth(2);
+
+for (int i = 0; i < 4; ++i) {
+   for (int j = 0; j < 3; ++j) {
+      canvas.beginPath();
+	     float x = 25 + j * 50;
+	     float y = 25 + i * 50;
+      float radius = 20;
+      float startAngle = 0;
+      float endAngle = (float) (Math.PI + (Math.PI * j) / 2);
+      boolean anticlockwise = i % 2 != 0;
+      canvas.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+      if (i > 1) {
+         canvas.fill();
+      } else {
+         canvas.stroke();
+      }
+   }
+}
+
+canvas.translate(160, 20);
+canvas.setColorStrokeStyle("#ff0");
+canvas.setLineWidth(4);
+canvas.beginPath();
+canvas.arc(75, 75, 50, 0, (float) (Math.PI * 2), true);
+canvas.moveTo(110, 75);
+canvas.arc(75, 75, 35, 0, (float) Math.PI, false);
+canvas.moveTo(65, 65);
+canvas.arc(60, 65, 5, 0, (float) (Math.PI * 2), true);
+canvas.moveTo(95, 65);
+canvas.arc(90, 65, 5, 0, (float) (Math.PI * 2), true);
+canvas.stroke();
+canvas.restoreContext();
+
+Links
+  - Forum post: http://vaadin.com/forum/-/message_boards/message/38067
+  - Repository: http://dev.vaadin.com/browser/contrib/CanvasWidget
+  - Live demo: http://hezamu.virtuallypreinstalled.com/WidgetTest
+

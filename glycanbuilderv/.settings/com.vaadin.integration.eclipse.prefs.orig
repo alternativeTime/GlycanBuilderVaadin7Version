@@ -1,0 +1,8 @@
+#Mon Oct 03 14:10:39 BST 2011
+com.vaadin.integration.eclipse.useLatestNightly=false
+com.vaadin.integration.eclipse.widgetsetCompilationEta=92325
+com.vaadin.integration.eclipse.widgetsetDirty=false
+com.vaadin.integration.eclipse.widgetsetParallelism=2
+com.vaadin.integration.eclipse.widgetsetStyle=OBF
+com.vaadin.integration.eclipse.widgetsetVerbose=true
+eclipse.preferences.version=1
