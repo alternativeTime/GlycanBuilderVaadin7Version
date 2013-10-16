@@ -355,30 +355,43 @@ public class VCanvas extends Composite implements Paintable{
 				handleSetGradientStrokeStyle(childUIDL);
 			} else if (command.equals("strokerect")) {
 				handleStrokeRect(childUIDL);
+				//TODO
 			} else if (command.equals("transform")) {
 				handleTransform(childUIDL);
+				//TODO
 			} else if (command.equals("textto")) {
 				handleTextTo(childUIDL);
+				//TODO
 			}else if (command.equals("texttoangle")) {
 				handleTextToAngle(childUIDL);
+				//TODO
 			}else if (command.equals("mouseselectionmode")){
 				handleMouseSelectionMode(childUIDL);
+				//TODO
 			}else if(command.equals("getcurrentheight")){
 				//getCurrentHeight();
+				//TODO
 			}else if(command.equals("exportresponse")){
 				handleExportResponse(childUIDL);
+				//TODO
 			}else if(command.equals("changename")){
 				handleNameChange(childUIDL);
+				//TODO
 			}else if(command.equals("nativesetfont")){
 				handleSetFont(childUIDL);
+				//TODO
 			}else if(command.equals("nativetextalign")){
 				handleSetTextAlign(childUIDL);
+				//TODO
 			}else if(command.equals("nativefilltext")){
 				handleFillText(childUIDL);
+				//TODO
 			}else if(command.equals("nativefilltextmaxwidth")){
 				handleFillTextMaxWidth(childUIDL);
+				//TODO
 			}else if(command.equals("setfiremousemoveevents")){
 				fireMouseMoveEvents=childUIDL.getBooleanAttribute("fire");
+				//TODO
 			}else if(command.equals("getsize")){
 				handleGetSize();
 			}else {

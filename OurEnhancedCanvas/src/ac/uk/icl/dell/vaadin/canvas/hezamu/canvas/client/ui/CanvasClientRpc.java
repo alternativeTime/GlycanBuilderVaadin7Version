@@ -1,6 +1,7 @@
 package ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui;
 
 import com.vaadin.shared.communication.ClientRpc;
+import com.vaadin.ui.Component;
 
 public interface CanvasClientRpc extends ClientRpc {
 	public void drawImage1(String url, Double offsetX, Double offsetY);
@@ -88,6 +89,18 @@ public interface CanvasClientRpc extends ClientRpc {
 	public void addColorStop(String gradient, Double offset, String color);
 
 	public void loadImages(String[] urls);
+	
+ 	public void textAlign(String textAlign);
+	public void fillText(String text, Double x, Double y);
+	public void setScroll(int top, int left);
+	public void setMinimumSize(int width, int height);
+	public void stopResizeThread();
+	public void setParent(Component parent);
+	public void enableMouseSelectionRectangle(boolean enable);
+	public void respondToExportRequest(String exportResponse);
+	public void setName(String name);
+	public void setSizeFull();
+
 	// Sets or returns the color to use for shadows
 	// public void shadowColor(String color);
 
