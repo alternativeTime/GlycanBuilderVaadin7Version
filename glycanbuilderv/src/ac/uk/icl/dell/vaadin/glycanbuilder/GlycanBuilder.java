@@ -139,7 +139,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		
 		//TODO: seems to be unused so don't see why it needs to be set.
 		theCanvas.setBackgroundColor("#CCF");
-		theCanvas.setName("glycanCanvas");
 		
 		theCanvas.addExportListener(new ExportListener(){
 			@Override
@@ -293,7 +292,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		theResidueCanvas=new VaadinGlycanCanvas();
 		//TODO: seems to be unused so don't see why it needs to be set.
 		theResidueCanvas.setBackgroundColor("#CCF");
-		theResidueCanvas.setName("residueCanvas");
 		
 		theResidueCanvas.setHeight("25px");
 		//theResidueCanvas.setWidth("100%");

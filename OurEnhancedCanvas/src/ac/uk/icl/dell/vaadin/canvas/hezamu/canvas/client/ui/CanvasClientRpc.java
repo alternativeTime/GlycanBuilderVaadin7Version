@@ -90,6 +90,7 @@ public interface CanvasClientRpc extends ClientRpc {
 
 	public void loadImages(String[] urls);
 	
+	public void setBackgroundColor(String rgb);
  	public void textAlign(String textAlign);
 	public void fillText(String text, Double x, Double y);
 	public void setScroll(int top, int left);

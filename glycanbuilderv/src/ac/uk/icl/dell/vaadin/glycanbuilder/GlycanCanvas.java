@@ -365,7 +365,6 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 
 	@Override
 	public void documentInit(DocumentChangeEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

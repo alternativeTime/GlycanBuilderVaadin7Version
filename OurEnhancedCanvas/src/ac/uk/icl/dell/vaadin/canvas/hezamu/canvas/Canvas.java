@@ -9,6 +9,7 @@ import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasServerRpc;
 
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -822,7 +823,77 @@ public class Canvas extends AbstractComponent {
 			imageLoadListeners.remove(listener);
 		}
 	}
+	
+	
+ 	public void textAlign(String textAlign)
+ 	{
+ 		rpc.textAlign(textAlign);
+ 	}
+ 	
+	public void fillText(String text, Double x, Double y)
+	{
+		rpc.fillText(text, x, y);
+	}
+	
+	public void setScroll(int top, int left)
+	{
+		rpc.setScroll(top, left);
+	}
+	
+	public void setMinimumSize(int width, int height)
+	{
+		rpc.setMinimumSize(width, height);
+	}
+	
+	
+	public void enableMouseSelectionRectangle(boolean enable)
+	{
+		rpc.enableMouseSelectionRectangle(enable);
+	}
 
+	public void setSizeFull()
+	{
+		rpc.setSizeFull();
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 */
+	@Deprecated
+	public void stopResizeThread()
+	{
+		rpc.stopResizeThread();
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param parent
+	 */
+	@Deprecated
+	public void setParent(Component parent)
+	{
+		rpc.setParent(parent);
+	}
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param exportResponse
+	 */
+	@Deprecated
+	public void respondToExportRequest(String exportResponse)
+	{
+		rpc.respondToExportRequest(exportResponse);
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param name
+	 */
+	@Deprecated
+	public void setName(String name)
+	{
+		rpc.setName(name);
+	}
+	
 	private void fireImagesLoaded() {
 		for (CanvasImageLoadListener listener : imageLoadListeners) {
 			listener.imagesLoaded();

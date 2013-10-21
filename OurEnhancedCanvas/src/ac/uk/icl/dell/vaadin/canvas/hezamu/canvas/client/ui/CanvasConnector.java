@@ -11,6 +11,7 @@ import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ErrorEvent;
@@ -18,6 +19,7 @@ import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -68,6 +70,8 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	private int lastCanvasWidth;
 
 	private int lastCanvasHeight;
+	
+	private boolean enableMouseSelectionMode = false;
 
 	public CanvasConnector() {
 		commands = new ArrayList<Command>();
@@ -561,6 +565,17 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					RootPanel.get().add(image);
 				}
 			}
+			
+			@Override
+			public void setBackgroundColor(final String rgb)
+			{
+				runCommand(new Command() {					
+					@Override
+					public void execute() {
+						DOM.setStyleAttribute(getWidget().getElement(),"backgroundColor",rgb);						
+					}
+				}, false);
+			}
 
 			@Override
 			public void textAlign(final String textAlign) {
@@ -604,42 +619,55 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			}
 
 			@Override
-			public void setScroll(int top, int left) {
+			public void setScroll(final int top, final int left) {
 
-				if(top==-1){
-					top=cachedScrollTop;
-				}
-				
-				scrollTopFinal=top;
-				
-				if(left==-1){
-					left=cachedScrollLeft;
-				}
-				
-				scrollLeftFinal=left;
-				int scrollTopNow = getWidget().getParent().getElement().getScrollTop();
-				//int scrollTopNow=getElement().getParentElement().getScrollTop();
-
-				if(scrollTopNow!=scrollTopFinal){
-					getWidget().getParent().getElement().setScrollTop(scrollTopFinal);
-					//getElement().getParentElement().setScrollTop(scrollTopFinal);					
-				}
-				
-				int scrollLeftNow = getWidget().getParent().getElement().getScrollLeft();
-//				int scrollLeftNow=getElement().getParentElement().getScrollLeft();
-
-				if(scrollLeftNow!=scrollLeftFinal){
-					getWidget().getParent().getElement().setScrollLeft(scrollLeftFinal);
-					//getElement().getParentElement().setScrollLeft(scrollLeftFinal); 
-				}
+				runCommand(new Command() {				
+					@Override
+					public void execute() {
+						int scrollTop = top;
+						int scrollLeft = left;
+						if(scrollTop==-1){
+							scrollTop=cachedScrollTop;
+						}
+						
+						scrollTopFinal=scrollTop;
+						
+						if(scrollLeft==-1){
+							scrollLeft=cachedScrollLeft;
+						}
+						
+						scrollLeftFinal=scrollLeft;
+						int scrollTopNow = getWidget().getParent().getElement().getScrollTop();
+						//int scrollTopNow=getElement().getParentElement().getScrollTop();
+						
+						if(scrollTopNow!=scrollTopFinal){
+							getWidget().getParent().getElement().setScrollTop(scrollTopFinal);
+							//getElement().getParentElement().setScrollTop(scrollTopFinal);					
+						}
+						
+						int scrollLeftNow = getWidget().getParent().getElement().getScrollLeft();
+						//	int scrollLeftNow=getElement().getParentElement().getScrollLeft();
+						
+						if(scrollLeftNow!=scrollLeftFinal){
+							getWidget().getParent().getElement().setScrollLeft(scrollLeftFinal);
+							//getElement().getParentElement().setScrollLeft(scrollLeftFinal); 
+						}						
+					}
+				}, false);
 				
 			}
 
 			@Override
-			public void setMinimumSize(int width, int height) {
-				minimumCanvasHeight = height;
-				minimumCanvasWidth = width;
-				updateDimensions();
+			public void setMinimumSize(final int width,final int height) {
+				
+				runCommand(new Command() {					
+					@Override
+					public void execute() {
+						minimumCanvasHeight = height;
+						minimumCanvasWidth = width;
+						updateDimensions();						
+					}
+				}, false);
 			}
 			
 			private void redraw(){
@@ -729,38 +757,57 @@ public class CanvasConnector extends AbstractComponentConnector implements
 
 			@Override
 			public void stopResizeThread() {
-				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub NOT USED
 				
 			}
 
 			@Override
 			public void setParent(Component parent) {
-				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub NOT USED
 				
 			}
 
 			@Override
-			public void enableMouseSelectionRectangle(boolean enable) {
-				// TODO Auto-generated method stub
+			public void enableMouseSelectionRectangle(final boolean enable) {
+				runCommand(new Command() {
+					
+					@Override
+					public void execute() {
+						enableMouseSelectionMode = enable;
+					}
+				}, false);
 				
 			}
 
 			@Override
 			public void respondToExportRequest(String exportResponse) {
-				// TODO Auto-generated method stub
-				
+				runCommand(new Command() {
+					
+					@Override
+					public void execute() {
+						// TODO Auto-generated method stub IMPLEMENTATION IS EMPTY IN VCANVAS
+						
+					}
+				}, false);				
 			}
 
 			@Override
 			public void setName(String name) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub IMPLEMENTATION IS EMPTY IN VCANVAS
 			}
 
 			@Override
 			public void setSizeFull() {
-				// TODO Auto-generated method stub
 				
+				runCommand(new Command() {
+					@Override
+					public void execute() {
+						//getElement().getParentElement().getStyle().setWidth(100, Unit.PCT);
+						getWidget().getParent().getElement().getStyle().setWidth(100, Unit.PCT);
+						//getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
+						getWidget().getParent().getElement().getStyle().setHeight(100, Unit.PCT);						
+					}
+				});
 			}
 			
 		});
