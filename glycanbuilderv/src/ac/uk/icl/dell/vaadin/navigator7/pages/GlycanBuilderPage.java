@@ -55,7 +55,9 @@ public class GlycanBuilderPage extends CustomComponent
 	GlycanBuilder theGlycanBuilder;
 	
 	public GlycanBuilderPage(){
-		final CustomLayout layout = new CustomLayout("header_content_footer");
+		//final CustomLayout layout = new CustomLayout("header_content_footer");
+		VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
 		//SimpleFileMenu menu=new SimpleFileMenu();
 		//layout.addComponent(menu, "header");
 
@@ -64,7 +66,7 @@ public class GlycanBuilderPage extends CustomComponent
 		theGlycanBuilder=new GlycanBuilder();
 		theGlycanBuilder.setSizeFull();
 	
-		layout.addComponent(theGlycanBuilder,"content");
+		layout.addComponent(theGlycanBuilder);
 		setCompositionRoot(layout);
 		setSizeFull();
 	

@@ -8,7 +8,7 @@ import java.util.List;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.ProducesLocalResources;
-import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
+//import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
 
 import com.github.wolfie.refresher.Refresher;
 import com.github.wolfie.refresher.Refresher.RefreshListener;
@@ -74,7 +74,7 @@ public abstract class NavigatorFileUpload {
 	protected void initialise(String buttonCaption,Upload.Receiver receiver){
 		upload=new Upload(buttonCaption,receiver);
 		
-		upload.addListener(new Upload.SucceededListener(){
+		upload.addSucceededListener(new Upload.SucceededListener(){
 			private static final long serialVersionUID=-2110272574466389181L;
 
 			@Override
@@ -83,7 +83,7 @@ public abstract class NavigatorFileUpload {
 			}
 		});
 		
-		upload.addListener(new Upload.FailedListener(){
+		upload.addFailedListener(new Upload.FailedListener(){
 			private static final long serialVersionUID=6938546297736635515L;
 
 			@Override
@@ -96,7 +96,7 @@ public abstract class NavigatorFileUpload {
 			}
 		});
 		
-		upload.addListener(new StartedListener(){
+		upload.addStartedListener(new StartedListener(){
 			private static final long serialVersionUID=7860277448399016656L;
 
 			@Override
@@ -111,7 +111,8 @@ public abstract class NavigatorFileUpload {
 
 							@Override
 							public void refresh(Refresher source){
-								((ComponentContainer) refresher.getParent()).removeComponent(refresher);
+								
+								//TODO: ((ComponentContainer) refresher.getParent()).removeComponent(refresher);
 								
 								if(failedEvent!=null){
 									uploadFailed(failedEvent);
@@ -127,15 +128,16 @@ public abstract class NavigatorFileUpload {
 							}
 						});
 					}else{
-						Component refParent=refresher.getParent();
-						if(refParent!=null){
-							((ComponentContainer) refParent).removeComponent(refresher);
-						}
+						//TODO: Component refParent=refresher.getParent();
+//						if(refParent!=null){
+//							((ComponentContainer) refParent).removeComponent(refresher);
+//						}
 					}
 					
-					((ComponentContainer)parent).addComponent(refresher);
+					//((ComponentContainer)parent).addComponent(refresher);
 				}else{
-					IGGApplication.reportMessage("Parent of upload component must be an instanceof ComponentContainer");
+					//TODO: replace with something else.
+					//IGGApplication.reportMessage("Parent of upload component must be an instanceof ComponentContainer");
 				}
 			}
 		});

@@ -18,6 +18,12 @@ import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
@@ -33,7 +39,6 @@ import com.vaadin.client.ui.SimpleManagedLayout;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
 @Connect(ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.class)
@@ -49,11 +54,25 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	private final CanvasServerRpc rpc = RpcProxy.create(CanvasServerRpc.class,
 			this);
 	
+	private final Context2d ctx = getWidget().getContext2d();
+	
 	private Canvas bufferCanvas=Canvas.createIfSupported();
 	private ImageData imageData;
 	private boolean regenerateFastDraw=false;
 
-
+	boolean mouseDown=false;
+	//TODO
+	boolean fireMouseMoveEvents=false;
+	
+	private int mouseDownPoint_x,mouseDownPoint_y;
+	//TODO
+	private boolean mouseMoved;
+	//TODO
+	private int lastXPosMove,lastYPosMove;
+	//TODO	
+	private int lastWidth,lastHeight;
+	//TODO
+	private int startX,startY;
 	//TODO
 	private int minimumCanvasWidth=1;
 	//TODO
@@ -89,14 +108,146 @@ public class CanvasConnector extends AbstractComponentConnector implements
 								getWidget().getElement());
 
 				rpc.clicked(med);
+			}			
+		});
+		
+		getWidget().addMouseDownHandler(new MouseDownHandler() {
+			
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+//				if (client == null) {
+//					return;
+//				}
+					
+					int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
+					int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
+					//TODO
+					if(enableMouseSelectionMode){
+						mouseDownPoint_x=x;
+						mouseDownPoint_y=y;
+						lastXPosMove=x;
+						lastYPosMove=y;
+						mouseDown=true;
+						startX=x;
+						startY=y;
+					}
+//				else{
+//					client.updateVariable(paintableId, "mx", x, false);
+//					client.updateVariable(paintableId, "my", y, false);
+//					client.updateVariable(paintableId, "event", "mousedown", true);
+//				}
+				
+			}
+		});
+		
+		
+		getWidget().addMouseUpHandler(new MouseUpHandler() {
+			
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+//				if (client == null) {
+//					return;
+//				}
+
+				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
+				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
+				//TODO
+				if(enableMouseSelectionMode){
+					if(mouseMoved){
+						clear();
+						redraw();
+					}
+					
+					System.err.println("Mouse up!");
+					
+					x=startX > x ? x: startX;
+					y=startY > y ? y: startY;
+					
+					mouseDown=false;
+					
+//					client.updateVariable(paintableId, "mx", x, false);
+//					client.updateVariable(paintableId, "my", y, false);
+//					client.updateVariable(paintableId, "lastwidth", lastWidth, false);
+//					client.updateVariable(paintableId, "lastheight", lastHeight, false);
+//					client.updateVariable(paintableId, "mousemoved", mouseMoved, false);
+//					client.updateVariable(paintableId, "event", "mousemoveselection", true);
+					
+					mouseMoved=false;
+				}
+					
+					cachedScrollTop=getWidget().getParent().getElement().getScrollTop();
+					cachedScrollLeft=getWidget().getParent().getElement().getScrollLeft();
+				}
+//				else{
+//					client.updateVariable(paintableId, "mx", x, false);
+//					client.updateVariable(paintableId, "my", y, false);
+//					client.updateVariable(paintableId, "event", "mouseup", true);
+//				}
+		});
+
+		getWidget().addMouseMoveHandler(new MouseMoveHandler() {
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+//				if (client == null) {
+//					return;
+//				}
+
+				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
+				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
+				
+				if(enableMouseSelectionMode){
+					if(mouseDown && ( (x-lastXPosMove >10 || x-lastXPosMove < -10) || ((y-lastYPosMove >10 || y-lastYPosMove < -10)))){
+						mouseMoved=true;
+						lastXPosMove=x;
+						lastYPosMove=y;
+						clear();
+						
+						int x1,y1,width,height;
+						
+						if(mouseDownPoint_x > x){
+							x1=x;
+							width=mouseDownPoint_x-x1;
+						}else{
+							x1=mouseDownPoint_x;
+							width=x-x1;
+						}
+						
+						if(mouseDownPoint_y > y){
+							y1=y;
+							height=mouseDownPoint_y-y1;
+						}else{
+							y1=mouseDownPoint_y;
+							height=y-y1;
+						}
+						
+						lastWidth=width;
+						lastHeight=height;
+						
+						redraw();
+						
+						ctx.strokeRect(x1, y1, width, height);
+					}
+//					else if(fireMouseMoveEvents){
+//						client.updateVariable(paintableId, "mx", x, false);
+//						client.updateVariable(paintableId, "my", y, false);
+//						client.updateVariable(paintableId, "lastwidth", 0, false);
+//						client.updateVariable(paintableId, "lastheight", 0, false);
+//						client.updateVariable(paintableId, "mousemoved", true, false);
+//						
+//						client.updateVariable(paintableId, "event", "mousemoveselection", true);
+//					}
+				}
+				//else{
+					//client.updateVariable(paintableId, "mx", x, false);
+					//client.updateVariable(paintableId, "my", y, false);
+					//client.updateVariable(paintableId, "event", "mousemove", true);
+				//}
 			}
 		});
 
 		registerRpc(CanvasClientRpc.class, new CanvasClientRpc() {
 			private static final long serialVersionUID = -7521521510799765779L;
-
-			private final Context2d ctx = getWidget().getContext2d();
-
+			
 			@Override
 			public void fillRect(final Double startX, final Double startY,
 					final Double width, final Double height) {
@@ -414,13 +565,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			}
 
 			@Override
-			public void clear() {
-				ctx.clearRect(0, 0, getWidget().getCoordinateSpaceWidth(),
-						getWidget().getCoordinateSpaceHeight());
-				clearCommands();
-			}
-
-			@Override
 			public void setGlobalAlpha(final Double alpha) {
 				runCommand(new Command() {
 					@Override
@@ -670,25 +814,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 				}, false);
 			}
 			
-			private void redraw(){
-				if(regenerateFastDraw){
-					regenerateFastDraw=false;
-					
-//					say("redrawing: "+lastCanvasHeight);
-					
-					imageData=ctx.getImageData(0, 0, lastCanvasWidth, lastCanvasHeight);
-				
-					//slow
-					bufferCanvas.setCoordinateSpaceHeight(lastCanvasHeight);
-					bufferCanvas.setCoordinateSpaceWidth(lastCanvasWidth);
-					bufferCanvas.getContext2d().putImageData(imageData, 0, 0);
-				}
-				
-				//fast
-				ctx.drawImage(bufferCanvas.getCanvasElement(), 0, 0);
-				
-				//canvas.context2d.putImageData(imageData, 0, 0);
-			}
 			
 			protected void updateDimensions(){
 				boolean repaint=false;
@@ -803,11 +928,23 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					@Override
 					public void execute() {
 						//getElement().getParentElement().getStyle().setWidth(100, Unit.PCT);
-						getWidget().getParent().getElement().getStyle().setWidth(100, Unit.PCT);
+						getWidget().getElement().getParentElement().getStyle().setWidth(100, Unit.PCT);
 						//getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
-						getWidget().getParent().getElement().getStyle().setHeight(100, Unit.PCT);						
+						getWidget().getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);						
 					}
 				});
+			}
+
+			@Override
+			public void clear() {
+				clear();
+				
+			}
+
+			@Override
+			public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
+					Double cp2y, Double x, Double y) {
+				ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);				
 			}
 			
 		});
@@ -871,4 +1008,31 @@ public class CanvasConnector extends AbstractComponentConnector implements
 		commands.removeAll(drawingCommands);
 	}
 
+	private void redraw(){
+		if(regenerateFastDraw){
+			regenerateFastDraw=false;
+			
+//			say("redrawing: "+lastCanvasHeight);
+			
+			imageData=ctx.getImageData(0, 0, lastCanvasWidth, lastCanvasHeight);
+		
+			//slow
+			bufferCanvas.setCoordinateSpaceHeight(lastCanvasHeight);
+			bufferCanvas.setCoordinateSpaceWidth(lastCanvasWidth);
+			bufferCanvas.getContext2d().putImageData(imageData, 0, 0);
+		}
+		
+		//fast
+		ctx.drawImage(bufferCanvas.getCanvasElement(), 0, 0);
+		
+		//canvas.context2d.putImageData(imageData, 0, 0);
+	}
+	
+
+	public void clear() {
+		ctx.clearRect(0, 0, getWidget().getCoordinateSpaceWidth(),
+				getWidget().getCoordinateSpaceHeight());
+		clearCommands();
+	}
+	
 }

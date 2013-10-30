@@ -1,6 +1,7 @@
 package ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui;
 
 import com.vaadin.shared.communication.ClientRpc;
+import com.vaadin.ui.Component;
 
 public interface CanvasClientRpc extends ClientRpc {
 	public void drawImage1(String url, Double offsetX, Double offsetY);
@@ -88,6 +89,19 @@ public interface CanvasClientRpc extends ClientRpc {
 	public void addColorStop(String gradient, Double offset, String color);
 
 	public void loadImages(String[] urls);
+	
+	public void setBackgroundColor(String rgb);
+ 	public void textAlign(String textAlign);
+	public void fillText(String text, Double x, Double y);
+	public void setScroll(int top, int left);
+	public void setMinimumSize(int width, int height);
+	public void stopResizeThread();
+	public void setParent(Component parent);
+	public void enableMouseSelectionRectangle(boolean enable);
+	public void respondToExportRequest(String exportResponse);
+	public void setName(String name);
+	public void setSizeFull();
+
 	// Sets or returns the color to use for shadows
 	// public void shadowColor(String color);
 
@@ -117,13 +131,13 @@ public interface CanvasClientRpc extends ClientRpc {
 	// public void clip();
 
 	// The bezierCurveTo() method adds a point to the current path by using the
-	// specified control points that represent a cubic BŽzier curve.
+	// specified control points that represent a cubic B?zier curve.
 	//
 	// A cubic bezier curve requires three points. The first two points are
-	// control points that are used in the cubic BŽzier calculation and the last
+	// control points that are used in the cubic B?zier calculation and the last
 	// point is the ending point for the curve. The starting point for the curve
 	// is the last point in the current path. If a path does not exist, use the
 	// beginPath() and moveTo() methods to define a starting point.
-	// public void bezierCurveTo(Integer cp1x, Integer cp1y, Integer cp2x,
-	// Integer cp2y, Integer x, Integer y);
+	 public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
+			 Double cp2y, Double x, Double y);
 }

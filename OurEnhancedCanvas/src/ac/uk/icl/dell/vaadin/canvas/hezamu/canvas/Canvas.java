@@ -3,7 +3,6 @@ package ac.uk.icl.dell.vaadin.canvas.hezamu.canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasClientRpc;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasServerRpc;
 
@@ -26,6 +25,11 @@ import com.vaadin.ui.Component;
 public class Canvas extends AbstractComponent {
 	private final List<CanvasClickListener> clickListeners = new ArrayList<CanvasClickListener>();
 	private final List<CanvasImageLoadListener> imageLoadListeners = new ArrayList<CanvasImageLoadListener>();
+
+	private final List<CanvasMouseDownListener> downListeners = new ArrayList<CanvasMouseDownListener>();
+	private final List<CanvasMouseUpListener> upListeners = new ArrayList<CanvasMouseUpListener>();
+	private final List<CanvasMouseMoveListener> moveListeners = new ArrayList<CanvasMouseMoveListener>();
+	
 	private final CanvasClientRpc rpc = getRpcProxy(CanvasClientRpc.class);
 
 	/**
@@ -39,6 +43,21 @@ public class Canvas extends AbstractComponent {
 
 			public void imagesLoaded() {
 				fireImagesLoaded();
+			}
+			
+			public void mouseDown(int x, int y)
+			{
+				fireMouseDown(x, y);
+			}
+
+			public void mouseUp(int x, int y)
+			{
+				fireMouseUp(x, y);
+			}
+
+			public void mouseMove(int x, int y)
+			{
+				fireMouseMove(x, y);
 			}
 		});
 	}
@@ -824,6 +843,16 @@ public class Canvas extends AbstractComponent {
 		}
 	}
 	
+	private void fireImagesLoaded() {
+		for (CanvasImageLoadListener listener : imageLoadListeners) {
+			listener.imagesLoaded();
+		}
+	}
+	
+	public void setBackgroundColor(String color)
+	{
+		rpc.setBackgroundColor(color);
+	}
 	
  	public void textAlign(String textAlign)
  	{
@@ -854,6 +883,12 @@ public class Canvas extends AbstractComponent {
 	public void setSizeFull()
 	{
 		rpc.setSizeFull();
+	}
+	
+	public void cubicCurveTo(Double cp1x, Double cp1y, Double cp2x,
+			Double cp2y, Double x, Double y)
+	{
+		rpc.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
 	}
 	
 	/**
@@ -894,9 +929,70 @@ public class Canvas extends AbstractComponent {
 		rpc.setName(name);
 	}
 	
-	private void fireImagesLoaded() {
-		for (CanvasImageLoadListener listener : imageLoadListeners) {
-			listener.imagesLoaded();
+	public interface CanvasMouseDownListener {
+		public void mouseDown(int x, int y);
+	}
+
+	public void addListener(CanvasMouseDownListener listener) {
+		if (!downListeners.contains(listener)) {
+			downListeners.add(listener);
 		}
 	}
+
+	public void removeListener(CanvasMouseDownListener listener) {
+		if (downListeners.contains(listener)) {
+			downListeners.remove(listener);
+		}
+	}
+
+	private void fireMouseDown(int x, int y) {
+		for (CanvasMouseDownListener listener : downListeners) {
+			listener.mouseDown(x, y);
+		}
+	}
+
+	public interface CanvasMouseUpListener {
+		public void mouseUp(int x, int y);
+	}
+
+	public void addListener(CanvasMouseUpListener listener) {
+		if (!upListeners.contains(listener)) {
+			upListeners.add(listener);
+		}
+	}
+
+	public void removeListener(CanvasMouseUpListener listener) {
+		if (upListeners.contains(listener)) {
+			upListeners.remove(listener);
+		}
+	}
+	
+	private void fireMouseUp(int x, int y) {
+		for (CanvasMouseUpListener listener : upListeners) {
+			listener.mouseUp(x, y);
+		}
+	}
+
+	public interface CanvasMouseMoveListener {
+		public void mouseMove(int x, int y);
+	}
+
+	public void addListener(CanvasMouseMoveListener listener) {
+		if (!moveListeners.contains(listener)) {
+			moveListeners.add(listener);
+		}
+	}
+
+	public void removeListener(CanvasMouseMoveListener listener) {
+		if (moveListeners.contains(listener)) {
+			moveListeners.remove(listener);
+		}
+	}
+
+	private void fireMouseMove(int x, int y) {
+		for (CanvasMouseMoveListener listener : moveListeners) {
+			listener.mouseMove(x, y);
+		}
+	}
+	
 }

@@ -253,30 +253,30 @@ public class ResidueRendererCanvas extends AbstractResidueRenderer{
 		if(position==Position.TOP){
 			if(angle.getIntAngle()==180){
 				canvas.textAlign("left");
-				canvas.fillText(text, (float)x+(cur_bbox.width/2), (float)y+10);
+				canvas.fillText(text, x+(cur_bbox.width/2), y+10);
 			}else if(angle.getIntAngle()==0){
 				canvas.textAlign("right");
-				canvas.fillText(text, (float)x+(cur_bbox.width/2)+1, (float)y+cur_bbox.height-2); //minus 1 and 2 are odd correction factors we need
+				canvas.fillText(text, x+(cur_bbox.width/2)+1, y+cur_bbox.height-2); //minus 1 and 2 are odd correction factors we need
 			}else if(angle.getIntAngle()==-90){
 				canvas.textAlign("left");
-				canvas.fillText(text, (float)x+cur_bbox.width-10, (float)y+(cur_bbox.height/2)+6);
+				canvas.fillText(text, x+cur_bbox.width-10, y+(cur_bbox.height/2)+6);
 			}else if(angle.getIntAngle()==90){
 				canvas.textAlign("right");
-				canvas.fillText(text, (float)x+10, (float)y+(cur_bbox.height/2)+1);
+				canvas.fillText(text, x+10, y+(cur_bbox.height/2)+1);
 			}
 		}else if(position==Position.BOTTOM){
 			if(angle.getIntAngle()==180){
 				canvas.textAlign("left");
-				canvas.fillText(text, (float)x+(cur_bbox.width/2), (float)y+cur_bbox.height-2);
+				canvas.fillText(text, x+(cur_bbox.width/2), y+cur_bbox.height-2);
 			}else if(angle.getIntAngle()==0){
 				canvas.textAlign("right");
-				canvas.fillText(text, (float)x+(cur_bbox.width/2)+1, (float)y+10); //minus 1 and 2 are odd correction factors we need
+				canvas.fillText(text, x+(cur_bbox.width/2)+1, y+10); //minus 1 and 2 are odd correction factors we need
 			}else if(angle.getIntAngle()==-90){
 				canvas.textAlign("right");
-				canvas.fillText(text, (float)x+10, (float)y+(cur_bbox.height/2)+6);
+				canvas.fillText(text, x+10, y+(cur_bbox.height/2)+6);
 			}else if(angle.getIntAngle()==90){
 				canvas.textAlign("left");
-				canvas.fillText(text, (float)x+cur_bbox.width-10, (float)y+(cur_bbox.height/2)+1);
+				canvas.fillText(text, x+cur_bbox.width-10, y+(cur_bbox.height/2)+1);
 			}
 		}
 	

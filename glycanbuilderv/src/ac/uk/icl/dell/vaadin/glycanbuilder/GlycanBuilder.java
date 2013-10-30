@@ -30,11 +30,11 @@ import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.GlycanParserFactory;
 import org.eurocarbdb.application.glycanbuilder.LogUtils;
 import org.eurocarbdb.application.glycanbuilder.Residue;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas.ExportListener;
+
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.SimpleFileMenu;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas.ExportListener;
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.GlycanCanvasUpdateListener;
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.NotationChangedListener;
 import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanCanvas.ResidueHistoryListener;

@@ -3,11 +3,12 @@ package ac.uk.icl.dell.vaadin.canvas.hezamu.canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vaadin.hezamu.canvas.client.ui.CanvasClientRpc;
-import org.vaadin.hezamu.canvas.client.ui.CanvasServerRpc;
+import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasClientRpc;
+import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasServerRpc;
 
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,6 +25,11 @@ import com.vaadin.ui.AbstractComponent;
 public class Canvas extends AbstractComponent {
 	private final List<CanvasClickListener> clickListeners = new ArrayList<CanvasClickListener>();
 	private final List<CanvasImageLoadListener> imageLoadListeners = new ArrayList<CanvasImageLoadListener>();
+
+	private final List<CanvasMouseDownListener> downListeners = new ArrayList<CanvasMouseDownListener>();
+	private final List<CanvasMouseUpListener> upListeners = new ArrayList<CanvasMouseUpListener>();
+	private final List<CanvasMouseMoveListener> moveListeners = new ArrayList<CanvasMouseMoveListener>();
+	
 	private final CanvasClientRpc rpc = getRpcProxy(CanvasClientRpc.class);
 
 	/**
@@ -37,6 +43,21 @@ public class Canvas extends AbstractComponent {
 
 			public void imagesLoaded() {
 				fireImagesLoaded();
+			}
+			
+			public void mouseDown(int x, int y)
+			{
+				fireMouseDown(x, y);
+			}
+
+			public void mouseUp(int x, int y)
+			{
+				fireMouseUp(x, y);
+			}
+
+			public void mouseMove(int x, int y)
+			{
+				fireMouseMove(x, y);
 			}
 		});
 	}
@@ -220,19 +241,19 @@ public class Canvas extends AbstractComponent {
 
 	/**
 	 * Adds a point to the current path by using the specified control points
-	 * that represent a quadratic BŽzier curve.
+	 * that represent a quadratic B?zier curve.
 	 * 
-	 * A quadratic BŽzier curve requires two points. The first point is a
-	 * control point that is used in the quadratic BŽzier calculation and the
+	 * A quadratic B?zier curve requires two points. The first point is a
+	 * control point that is used in the quadratic B?zier calculation and the
 	 * second point is the ending point for the curve. The starting point for
 	 * the curve is the last point in the current path. If a path does not
 	 * exist, use the {@link #beginPath()} and {@link #moveTo(double, double)}
 	 * methods to define a starting point.
 	 * 
 	 * @param cpx
-	 *            The X coordinate of the BŽzier control point
+	 *            The X coordinate of the B?zier control point
 	 * @param cpy
-	 *            The Y coordinate of the BŽzier control point
+	 *            The Y coordinate of the B?zier control point
 	 * @param x
 	 *            The X coordinate of the ending point
 	 * @param y
@@ -821,11 +842,157 @@ public class Canvas extends AbstractComponent {
 			imageLoadListeners.remove(listener);
 		}
 	}
-
+	
 	private void fireImagesLoaded() {
 		for (CanvasImageLoadListener listener : imageLoadListeners) {
 			listener.imagesLoaded();
 		}
 	}
-}
+	
+	public void setBackgroundColor(String color)
+	{
+		rpc.setBackgroundColor(color);
+	}
+	
+ 	public void textAlign(String textAlign)
+ 	{
+ 		rpc.textAlign(textAlign);
+ 	}
+ 	
+	public void fillText(String text, Double x, Double y)
+	{
+		rpc.fillText(text, x, y);
+	}
+	
+	public void setScroll(int top, int left)
+	{
+		rpc.setScroll(top, left);
+	}
+	
+	public void setMinimumSize(int width, int height)
+	{
+		rpc.setMinimumSize(width, height);
+	}
+	
+	
+	public void enableMouseSelectionRectangle(boolean enable)
+	{
+		rpc.enableMouseSelectionRectangle(enable);
+	}
 
+	public void setSizeFull()
+	{
+		rpc.setSizeFull();
+	}
+	
+	public void cubicCurveTo(Double cp1x, Double cp1y, Double cp2x,
+			Double cp2y, Double x, Double y)
+	{
+		rpc.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 */
+	@Deprecated
+	public void stopResizeThread()
+	{
+		rpc.stopResizeThread();
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param parent
+	 */
+	@Deprecated
+	public void setParent(Component parent)
+	{
+		rpc.setParent(parent);
+	}
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param exportResponse
+	 */
+	@Deprecated
+	public void respondToExportRequest(String exportResponse)
+	{
+		rpc.respondToExportRequest(exportResponse);
+	}
+	
+	/**
+	 * Implementation in the CanvasConnector in EMPTY.
+	 * @param name
+	 */
+	@Deprecated
+	public void setName(String name)
+	{
+		rpc.setName(name);
+	}
+	
+	public interface CanvasMouseDownListener {
+		public void mouseDown(int x, int y);
+	}
+
+	public void addListener(CanvasMouseDownListener listener) {
+		if (!downListeners.contains(listener)) {
+			downListeners.add(listener);
+		}
+	}
+
+	public void removeListener(CanvasMouseDownListener listener) {
+		if (downListeners.contains(listener)) {
+			downListeners.remove(listener);
+		}
+	}
+
+	private void fireMouseDown(int x, int y) {
+		for (CanvasMouseDownListener listener : downListeners) {
+			listener.mouseDown(x, y);
+		}
+	}
+
+	public interface CanvasMouseUpListener {
+		public void mouseUp(int x, int y);
+	}
+
+	public void addListener(CanvasMouseUpListener listener) {
+		if (!upListeners.contains(listener)) {
+			upListeners.add(listener);
+		}
+	}
+
+	public void removeListener(CanvasMouseUpListener listener) {
+		if (upListeners.contains(listener)) {
+			upListeners.remove(listener);
+		}
+	}
+	
+	private void fireMouseUp(int x, int y) {
+		for (CanvasMouseUpListener listener : upListeners) {
+			listener.mouseUp(x, y);
+		}
+	}
+	//TODO
+	public interface CanvasMouseMoveListener {
+		public void mouseMove(int x, int y);
+	}
+	//TODO
+	public void addListener(CanvasMouseMoveListener listener) {
+		if (!moveListeners.contains(listener)) {
+			moveListeners.add(listener);
+		}
+	}
+	//TODO
+	public void removeListener(CanvasMouseMoveListener listener) {
+		if (moveListeners.contains(listener)) {
+			moveListeners.remove(listener);
+		}
+	}
+	//TODO
+	private void fireMouseMove(int x, int y) {
+		for (CanvasMouseMoveListener listener : moveListeners) {
+			listener.mouseMove(x, y);
+		}
+	}
+	
+}

@@ -138,6 +138,6 @@ public interface CanvasClientRpc extends ClientRpc {
 	// point is the ending point for the curve. The starting point for the curve
 	// is the last point in the current path. If a path does not exist, use the
 	// beginPath() and moveTo() methods to define a starting point.
-	// public void bezierCurveTo(Integer cp1x, Integer cp1y, Integer cp2x,
-	// Integer cp2y, Integer x, Integer y);
+	 public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
+			 Double cp2y, Double x, Double y);
 }

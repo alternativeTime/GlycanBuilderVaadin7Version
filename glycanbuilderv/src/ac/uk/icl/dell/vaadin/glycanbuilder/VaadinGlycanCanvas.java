@@ -55,7 +55,6 @@ import org.eurocarbdb.application.glycanbuilder.TerminalType;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font.FONT;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.listeners.BasicCanvasClickListener;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.MessageDialogBox;
@@ -124,9 +123,9 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		theCanvas=new GlycanCanvas(new GlycanRendererCanvas(),new CanvasPaintable(this));
 		theCanvas.addGlycanCanvasUpdateListener(this);
 		
-		this.addListener((BasicCanvasClickListener)this);
-		this.addListener((BasicCanvasClickListener)this);
-		this.addListener((BasicCanvasClickListener)this);
+		this.addListener((CanvasMouseUpListener)this);
+		this.addListener((CanvasMouseMoveListener)this);
+		this.addListener((CanvasMouseDownListener)this);
 		
 		font=Font.getFont(FONT.STANDARD);
 		
@@ -1286,7 +1285,6 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 			
 			int proposedWidth=theCanvas.getWidth();
 			
-			//TODO: create mimimumSize method for canvas
 			setMinimumSize(proposedWidth, proposedHeight);
 		}
 	}
