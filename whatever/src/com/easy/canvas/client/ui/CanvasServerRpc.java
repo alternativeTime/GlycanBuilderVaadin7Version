@@ -1,0 +1,16 @@
+package com.easy.canvas.client.ui;
+
+import com.vaadin.shared.MouseEventDetails;
+import com.vaadin.shared.communication.ServerRpc;
+
+public interface CanvasServerRpc extends ServerRpc {
+	public void clicked(MouseEventDetails med);
+
+	public void imagesLoaded();
+	
+	public void mouseDown(int x, int y);
+
+	public void mouseUp(int x, int y);
+
+	public void mouseMove(int x, int y);
+}
