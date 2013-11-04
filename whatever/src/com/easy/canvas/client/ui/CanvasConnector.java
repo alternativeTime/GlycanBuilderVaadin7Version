@@ -206,6 +206,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 						lastHeight=height;
 						
 						redraw();
+						ctx.setStrokeStyle("FFF");
 						ctx.strokeRect(x1, y1, width, height);
 					}
 					//TODO
@@ -731,7 +732,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			
 			protected void updateDimensions(){
 				boolean repaint=false;
-				
+
 				int parentWidth=getWidget().getElement().getParentElement().getClientWidth(); //width of holding div
 				//int parentWidth=getElement().getParentElement().getClientWidth(); //width of holding div
 				
@@ -780,7 +781,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					
 					lastCanvasHeight=height;
 				}
-				
+
 				if(repaint){
 					getWidget().getElement().getParentElement().setScrollLeft(scrollLeftFinal);
 					getWidget().getElement().getParentElement().setScrollTop(scrollTopFinal);

@@ -7,11 +7,11 @@ import java.io.OutputStream;
 import java.util.List;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
-import ac.uk.icl.dell.vaadin.ProducesLocalResources;
-//import ac.uk.icl.dell.vaadin.navigator7.IGGApplication;
+import ac.uk.icl.dell.vaadin.MessageDialogBox;
 
 import com.github.wolfie.refresher.Refresher;
 import com.github.wolfie.refresher.Refresher.RefreshListener;
+import com.vaadin.server.ClientConnector;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Upload;
@@ -112,7 +112,8 @@ public abstract class NavigatorFileUpload {
 							@Override
 							public void refresh(Refresher source){
 								
-								//TODO: ((ComponentContainer) refresher.getParent()).removeComponent(refresher);
+								//((ComponentContainer) refresher.getParent()).removeComponent(refresher);
+								((ComponentContainer) refresher.getParent()).removeExtension(refresher);
 								
 								if(failedEvent!=null){
 									uploadFailed(failedEvent);
@@ -128,16 +129,20 @@ public abstract class NavigatorFileUpload {
 							}
 						});
 					}else{
-						//TODO: Component refParent=refresher.getParent();
-//						if(refParent!=null){
-//							((ComponentContainer) refParent).removeComponent(refresher);
-//						}
+						//Component refParent=refresher.getParent();
+						ClientConnector refParent=refresher.getParent();
+
+						if(refParent!=null){
+							//((ComponentContainer) refParent).removeComponent(refresher);
+							refParent.removeExtension(refresher);
+						}
 					}
 					
 					//((ComponentContainer)parent).addComponent(refresher);
+					parent.getExtensions().add(refresher);
+
 				}else{
-					//TODO: replace with something else.
-					//IGGApplication.reportMessage("Parent of upload component must be an instanceof ComponentContainer");
+					new MessageDialogBox("Error", "Parent of upload component must be an instanceof ComponentContainer");
 				}
 			}
 		});
