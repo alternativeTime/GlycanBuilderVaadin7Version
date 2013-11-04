@@ -4,4 +4,4 @@ build/*
 bin/*
 lib/*
 /nbproject/private/
-!/WebContent/VAADIN/themes/ucdb_2011theme/styles.css
+!WebContent/VAADIN/themes/ucdb_2011theme/styles.css
