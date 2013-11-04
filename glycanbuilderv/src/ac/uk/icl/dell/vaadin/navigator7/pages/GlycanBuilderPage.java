@@ -64,10 +64,10 @@ public class GlycanBuilderPage extends CustomComponent
 	
 		//IGGAppLevelWindow window=(IGGAppLevelWindow)IGGApplication.getCurrentNavigableAppLevelWindow();
 		theGlycanBuilder=new GlycanBuilder();
-		theGlycanBuilder.setSizeFull();
 	
 		layout.addComponent(theGlycanBuilder);
 		setCompositionRoot(layout);
+		theGlycanBuilder.setSizeFull();
 		setSizeFull();
 	
 	}
