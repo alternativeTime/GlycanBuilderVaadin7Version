@@ -307,7 +307,7 @@ public class LinkageRendererCanvas extends AbstractLinkageRenderer{
 		
 		theCanvas.beginPath();
 		theCanvas.moveTo(x1, y1);
-		//TODO-PP theCanvas.cubicCurveTo(tx1, ty1, tx2, ty2, x2, y2);
+		theCanvas.bezierCurveTo(tx1, ty1, tx2, ty2, x2, y2);
 		setStrokeColour(paintable,Color.BLACK);
 		theCanvas.stroke();
 		theCanvas.closePath();

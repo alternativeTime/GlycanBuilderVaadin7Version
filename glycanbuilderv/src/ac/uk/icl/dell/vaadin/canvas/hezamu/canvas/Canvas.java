@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasClientRpc;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasServerRpc;
 
@@ -689,6 +690,11 @@ public class Canvas extends AbstractComponent {
 	public void createRadialGradient(String name, double x0, double y0,
 			double r0, double x1, double y1, double r1) {
 		rpc.createRadialGradient(name, x0, y0, r0, x1, y1, r1);
+	}
+	
+	public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
+            Double cp2y, Double x, Double y) {
+		rpc.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
 	}
 
 	/**

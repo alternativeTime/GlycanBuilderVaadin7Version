@@ -2,13 +2,6 @@ package ac.uk.icl.dell.vaadin.canvas.basiccanvas;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
-
-
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontCharacter;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontPoint;
