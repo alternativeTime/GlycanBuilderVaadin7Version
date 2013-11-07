@@ -27,83 +27,83 @@ import java.io.Serializable;
  *
  */
 public class FontPoint implements Serializable{
-        private static final long serialVersionUID=-8412475010740725881L;
-        
-        /**
-         * Note: A value of 10 provide the nicest italic shape.<br>
-         */
-        private static double italicSlope = 10;
-        private double x;
-        private double y;
+	private static final long serialVersionUID=-8412475010740725881L;
+	
+	/**
+	 * Note: A value of 10 provide the nicest italic shape.<br>
+	 */
+	private static double italicSlope = 10;
+	private double x;
+	private double y;
 
-        /**
-         * Default constructor
-         */
-        public FontPoint() {
-                this.x = -1;
-                this.y = -1;
-        }
-        
-        /**
-         * Constructor with fields
-         * 
-         * @param x value of the point
-         * @param y value of the point
-         */
-        public FontPoint(double x, double y) {
-                this.x = x;
-                this.y = y;
-        }
+	/**
+	 * Default constructor
+	 */
+	public FontPoint() {
+		this.x = -1;
+		this.y = -1;
+	}
+	
+	/**
+	 * Constructor with fields
+	 * 
+	 * @param x value of the point
+	 * @param y value of the point
+	 */
+	public FontPoint(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
 
-        /**
-         * Get the value of x with the italic transform
-         * @param italic truee if italic transform is to be done
-         * @return the value of x
-         */
-        public double getX(boolean italic) {
-                return x + (italic ? (italicSlope * ((32 - y) / 32)) : 0);
-        }
+	/**
+	 * Get the value of x with the italic transform
+	 * @param italic truee if italic transform is to be done
+	 * @return the value of x
+	 */
+	public double getX(boolean italic) {
+		return x + (italic ? (italicSlope * ((32 - y) / 32)) : 0);
+	}
 
-        /**
-         * Get the value of x without any italic transform
-         * @return the value of x
-         */
-        public double getX() {
-                return x;
-        }
-        
-        /**
-         * Get the value of y
-         * @return the value of y
-         */
-        public double getY() {
-                return y;
-        }
-        
-        /**
-         * Set the value of x
-         * @param x value
-         */
-        public void setX(double x) {
-                this.x = x;
-        }
-        
-        /**
-         * Set the value of y
-         * @param y value
-         */
-        public void setY(double y) {
-                this.y = y;
-        }
-        
-        /**
-         * @author David R. Damerell
-         */
-        public FontPoint clone(){
-                FontPoint clonePoint=new FontPoint();
-                clonePoint.x=x;
-                clonePoint.y=y;
-                
-                return clonePoint;
-        }
+	/**
+	 * Get the value of x without any italic transform
+	 * @return the value of x
+	 */
+	public double getX() {
+		return x;
+	}
+	
+	/**
+	 * Get the value of y
+	 * @return the value of y
+	 */
+	public double getY() {
+		return y;
+	}
+	
+	/**
+	 * Set the value of x
+	 * @param x value
+	 */
+	public void setX(double x) {
+		this.x = x;
+	}
+	
+	/**
+	 * Set the value of y
+	 * @param y value
+	 */
+	public void setY(double y) {
+		this.y = y;
+	}
+	
+	/**
+	 * @author David R. Damerell
+	 */
+	public FontPoint clone(){
+		FontPoint clonePoint=new FontPoint();
+		clonePoint.x=x;
+		clonePoint.y=y;
+		
+		return clonePoint;
+	}
 }

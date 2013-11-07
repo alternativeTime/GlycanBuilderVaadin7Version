@@ -123,11 +123,12 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		theCanvas=new GlycanCanvas(new GlycanRendererCanvas(),new CanvasPaintable(this));
 		theCanvas.addGlycanCanvasUpdateListener(this);
 		
+		
 		this.addListener((CanvasMouseUpListener)this);
 		this.addListener((CanvasMouseMoveListener)this);
 		this.addListener((CanvasMouseDownListener)this);
 		
-		font=Font.getFont(FONT.STANDARD);
+		this.setFont(Font.getFont(FONT.STANDARD));
 		
 		componentsWithResidueSelectionDependency=new ArrayList<Component>();
 		menuItemsWithResidueSelectionDependency=new ArrayList<MenuItem>();
@@ -1085,9 +1086,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 	}
 	
 	public void appendGeneralToolBar(Panel theToolBarPanel){
-		HorizontalLayout toolBar=new HorizontalLayout();
-		toolBar.setWidth("100%");
-		
+		HorizontalLayout toolBar=new HorizontalLayout();	
 		toolBar.setStyleName("toolbar");
 		
 		NativeButton deleteButton=new NativeButton("Delete");
@@ -1285,7 +1284,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 			
 			int proposedWidth=theCanvas.getWidth();
 			
-			setMinimumSize(proposedWidth, proposedHeight);
+			//TODO-PP setMinimumSize(proposedWidth, proposedHeight);
 		}
 	}
 	

@@ -24,42 +24,42 @@ import java.util.Collection;
  *
  */
 public class FontSegment extends ArrayList<FontPoint> implements Cloneable, Serializable{
-        private static final long serialVersionUID=4082234453099148664L;
+	private static final long serialVersionUID=4082234453099148664L;
 
-        /**
-         * Constructor
-         */
-        public FontSegment() {
-                super();
-        }
+	/**
+	 * Constructor
+	 */
+	public FontSegment() {
+		super();
+	}
 
-        /**
-         * Constructor with initial capacity
-         * 
-         * @param initialCapacity initial capacity
-         */
-        public FontSegment(int initialCapacity) {
-                super(initialCapacity);
-        }
-        
-        /**
-         * Constructor with initial collection
-         * 
-         * @param c initial collection
-         */
-        public FontSegment(Collection<? extends FontPoint> c) {
-                super(c);
-        }
+	/**
+	 * Constructor with initial capacity
+	 * 
+	 * @param initialCapacity initial capacity
+	 */
+	public FontSegment(int initialCapacity) {
+		super(initialCapacity);
+	}
+	
+	/**
+	 * Constructor with initial collection
+	 * 
+	 * @param c initial collection
+	 */
+	public FontSegment(Collection<? extends FontPoint> c) {
+		super(c);
+	}
 
-        /**
-         * @author David R. Damerell
-         */
-        public FontSegment clone(){
-                FontSegment cloneSeg=new FontSegment();
-                for(FontPoint point:this){
-                        cloneSeg.add(point.clone());
-                }
-                
-                return cloneSeg;
-        }
+	/**
+	 * @author David R. Damerell
+	 */
+	public FontSegment clone(){
+		FontSegment cloneSeg=new FontSegment();
+		for(FontPoint point:this){
+			cloneSeg.add(point.clone());
+		}
+		
+		return cloneSeg;
+	}
 }

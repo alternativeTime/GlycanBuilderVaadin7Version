@@ -19,6 +19,7 @@
 */
 package ac.uk.icl.dell.vaadin.glycanbuilder;
 
+import javax.servlet.annotation.WebServlet;
 
 import org.eurocarbdb.application.glycanbuilder.BuilderWorkspace;
 import org.eurocarbdb.application.glycanbuilder.GlycanRendererAWT;
@@ -27,14 +28,23 @@ import org.eurocarbdb.application.glycanbuilder.LoggerStorage;
 import org.eurocarbdb.application.glycanbuilder.LoggerStorageImpl;
 import org.eurocarbdb.application.glycanbuilder.LoggerStorageIndex;
 
-import ac.uk.icl.dell.vaadin.navigator7.pages.GlycanBuilderPage;
-
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 @Theme("ucdb_2011theme")
 public class GlycanBuilderWindow extends UI{
+
+	@WebServlet(value = "/*", asyncSupported = true)
+	//@VaadinServletConfiguration(productionMode = false, ui = WhateverUI.class, widgetset = "com.example.whatever.widgetset.WhateverWidgetset")
+	@VaadinServletConfiguration(productionMode = true, ui = GlycanBuilderWindow.class, widgetset = "ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.GlycanbuilderWidgetset")
+	public static class Servlet extends VaadinServlet {
+		private static final long serialVersionUID = 4956233270191237091L;
+	}
+	private GlycanBuilder theBuilder; 
 	private static final long serialVersionUID=-4407090778568443024L;
 	private static LoggerStorage loggerStorage = new LoggerStorageImpl();
 	private static LoggerStorageIndex logger = new LoggerStorageIndex() {
@@ -48,15 +58,13 @@ public class GlycanBuilderWindow extends UI{
 
 	@Override
 	public void init(VaadinRequest request){
-		
-		GlycanBuilderPage glycanBuilderPage = new GlycanBuilderPage();
-				
-		//CustomLayout layout=new CustomLayout("header_content_footer_layout");
-		//setContent(layout);
-		//SimpleFileMenu menu=new SimpleFileMenu();
-		//layout.addComponent(menu, "header");
-		setContent(glycanBuilderPage);
-		glycanBuilderPage.setSizeFull();
+		VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
+		layout.setSizeFull();
+		theBuilder = new GlycanBuilder();
+		layout.addComponentAsFirst(theBuilder);
+		theBuilder.setSizeFull();
+		setContent(layout);
 	}
 	
 	public static void initialiseStaticResources(){

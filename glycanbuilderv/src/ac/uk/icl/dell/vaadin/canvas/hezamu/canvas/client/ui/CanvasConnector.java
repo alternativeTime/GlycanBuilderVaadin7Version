@@ -11,7 +11,6 @@ import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ErrorEvent;
@@ -22,8 +21,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
@@ -38,7 +37,6 @@ import com.vaadin.client.ui.PostLayoutListener;
 import com.vaadin.client.ui.SimpleManagedLayout;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.ui.Component;
 
 @SuppressWarnings("serial")
 @Connect(ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.class)
@@ -47,54 +45,21 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	private boolean needsDraw = false;
 
 	private final List<Command> commands;
-	private final List<Command> drawingCommands;
+	private int lastXPosMove,lastYPosMove;
+	
+	private int lastWidth,lastHeight;
+	private int startX,startY;
+	boolean mouseDown = false;
+	private boolean enableMouseSelectionMode = false;
+	private int mouseDownPoint_x,mouseDownPoint_y;
 
 	private final Map<String, CanvasGradient> gradients = new HashMap<String, CanvasGradient>();
 
 	private final CanvasServerRpc rpc = RpcProxy.create(CanvasServerRpc.class,
 			this);
-	
-	private final Context2d ctx = getWidget().getContext2d();
-	
-	private Canvas bufferCanvas=Canvas.createIfSupported();
-	private ImageData imageData;
-	private boolean regenerateFastDraw=false;
-
-	boolean mouseDown=false;
-	//TODO
-	boolean fireMouseMoveEvents=false;
-	
-	private int mouseDownPoint_x,mouseDownPoint_y;
-	//TODO
-	private boolean mouseMoved;
-	//TODO
-	private int lastXPosMove,lastYPosMove;
-	//TODO	
-	private int lastWidth,lastHeight;
-	//TODO
-	private int startX,startY;
-	//TODO
-	private int minimumCanvasWidth=1;
-	//TODO
-	private int minimumCanvasHeight=1;
-	//TODO
-	private int cachedScrollTop;
-	//TODO
-	private int cachedScrollLeft;
-	//TODO
-	private int scrollTopFinal;
-	//TODO
-	private int scrollLeftFinal;
-	
-	private int lastCanvasWidth;
-
-	private int lastCanvasHeight;
-	
-	private boolean enableMouseSelectionMode = false;
-
+	private  CanvasClientRpc clientRpc;
 	public CanvasConnector() {
 		commands = new ArrayList<Command>();
-		drawingCommands = new ArrayList<Command>();
 	}
 
 	@Override
@@ -108,63 +73,50 @@ public class CanvasConnector extends AbstractComponentConnector implements
 								getWidget().getElement());
 
 				rpc.clicked(med);
-			}			
+			}
 		});
-		
 		getWidget().addMouseDownHandler(new MouseDownHandler() {
 			
 			@Override
-			public void onMouseDown(MouseDownEvent event) {
-//				if (client == null) {
-//					return;
-//				}
-					
-					int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
-					int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
-					//TODO
-					if(enableMouseSelectionMode){
-						mouseDownPoint_x=x;
-						mouseDownPoint_y=y;
-						lastXPosMove=x;
-						lastYPosMove=y;
-						mouseDown=true;
-						startX=x;
-						startY=y;
-					}
-//				else{
-//					client.updateVariable(paintableId, "mx", x, false);
-//					client.updateVariable(paintableId, "my", y, false);
-//					client.updateVariable(paintableId, "event", "mousedown", true);
-//				}
-				
+			public void onMouseDown(MouseDownEvent event) {				
+				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
+				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
+				//TODO
+				if(enableMouseSelectionMode){
+					mouseDownPoint_x=x;
+					mouseDownPoint_y=y;
+					lastXPosMove=x;
+					lastYPosMove=y;
+					mouseDown=true;
+					startX=x;
+					startY=y;
+				}
+				else
+				{
+					//TODO: mouse down event
+				}
+			//rpc.mouseDown(startX, startY);
+			rpc.mouseDown(x,y);
 			}
 		});
-		
-		
-		getWidget().addMouseUpHandler(new MouseUpHandler() {
+
+	getWidget().addMouseUpHandler(new MouseUpHandler() {
 			
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-//				if (client == null) {
-//					return;
-//				}
 
 				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
 				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
 				//TODO
 				if(enableMouseSelectionMode){
-					if(mouseMoved){
-						clear();
-						redraw();
-					}
-					
-					System.err.println("Mouse up!");
+					clientRpc.daveClear();
+					clientRpc.redraw();
 					
 					x=startX > x ? x: startX;
 					y=startY > y ? y: startY;
 					
 					mouseDown=false;
-					
+					//TODO
 //					client.updateVariable(paintableId, "mx", x, false);
 //					client.updateVariable(paintableId, "my", y, false);
 //					client.updateVariable(paintableId, "lastwidth", lastWidth, false);
@@ -172,36 +124,27 @@ public class CanvasConnector extends AbstractComponentConnector implements
 //					client.updateVariable(paintableId, "mousemoved", mouseMoved, false);
 //					client.updateVariable(paintableId, "event", "mousemoveselection", true);
 					
-					mouseMoved=false;
+					//cachedScrollTop=getWidget().getElement().getParentElement().getScrollTop();
+					//cachedScrollLeft=getWidget().getElement().getParentElement().getScrollLeft();
+				}										
+				else{
+					//TODO: mouse up event
 				}
-					
-					cachedScrollTop=getWidget().getParent().getElement().getScrollTop();
-					cachedScrollLeft=getWidget().getParent().getElement().getScrollLeft();
-				}
-//				else{
-//					client.updateVariable(paintableId, "mx", x, false);
-//					client.updateVariable(paintableId, "my", y, false);
-//					client.updateVariable(paintableId, "event", "mouseup", true);
-//				}
+					//rpc.mouseUp(x, y);
+				}			
 		});
-
+		
 		getWidget().addMouseMoveHandler(new MouseMoveHandler() {
+			
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-//				if (client == null) {
-//					return;
-//				}
-
 				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
 				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
 				
 				if(enableMouseSelectionMode){
 					if(mouseDown && ( (x-lastXPosMove >10 || x-lastXPosMove < -10) || ((y-lastYPosMove >10 || y-lastYPosMove < -10)))){
-						mouseMoved=true;
 						lastXPosMove=x;
 						lastYPosMove=y;
-						clear();
-						
 						int x1,y1,width,height;
 						
 						if(mouseDownPoint_x > x){
@@ -222,11 +165,16 @@ public class CanvasConnector extends AbstractComponentConnector implements
 						
 						lastWidth=width;
 						lastHeight=height;
+						clientRpc.daveClear();
+						clientRpc.redraw();
+						clientRpc.saveContext();
+						clientRpc.setLineWidth(1d);
+						clientRpc.setStrokeStyle("rgb(25, 250, 150)");
+						clientRpc.strokeRect((double)x1, (double)y1, (double)width, (double)height, false);
+						clientRpc.restoreContext();
 						
-						redraw();
-						
-						ctx.strokeRect(x1, y1, width, height);
 					}
+					//TODO
 //					else if(fireMouseMoveEvents){
 //						client.updateVariable(paintableId, "mx", x, false);
 //						client.updateVariable(paintableId, "my", y, false);
@@ -237,17 +185,23 @@ public class CanvasConnector extends AbstractComponentConnector implements
 //						client.updateVariable(paintableId, "event", "mousemoveselection", true);
 //					}
 				}
-				//else{
+				else{
+					//TODO
 					//client.updateVariable(paintableId, "mx", x, false);
 					//client.updateVariable(paintableId, "my", y, false);
 					//client.updateVariable(paintableId, "event", "mousemove", true);
-				//}
+				}
+				
+			//	rpc.mouseMove(x, y);
+				
 			}
 		});
-
-		registerRpc(CanvasClientRpc.class, new CanvasClientRpc() {
+		clientRpc =   new CanvasClientRpc() {
 			private static final long serialVersionUID = -7521521510799765779L;
-			
+
+			private final Context2d ctx = getWidget().getContext2d();
+			private Canvas bufferCanvas = Canvas.createIfSupported();
+
 			@Override
 			public void fillRect(final Double startX, final Double startY,
 					final Double width, final Double height) {
@@ -565,6 +519,13 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			}
 
 			@Override
+			public void clear() {
+				ctx.clearRect(0, 0, getWidget().getCoordinateSpaceWidth(),
+						getWidget().getCoordinateSpaceHeight());
+				clearCommands();
+			}
+
+			@Override
 			public void setGlobalAlpha(final Double alpha) {
 				runCommand(new Command() {
 					@Override
@@ -709,246 +670,68 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					RootPanel.get().add(image);
 				}
 			}
-			
-			@Override
-			public void setBackgroundColor(final String rgb)
-			{
-				runCommand(new Command() {					
-					@Override
-					public void execute() {
-						DOM.setStyleAttribute(getWidget().getElement(),"backgroundColor",rgb);						
-					}
-				}, false);
-			}
 
 			@Override
-			public void textAlign(final String textAlign) {
-				
+			public void setBackgroundColor(final String color) {
 				runCommand(new Command() {
 					@Override
 					public void execute() {
-						ctx.setTextAlign(textAlign);
-					}
-				});				
-			}
-//
-//			@Override
-//			public void fillText(String text, float x, float y) {
-//				String text=childUIDL.getStringAttribute("text");
-//				float x=childUIDL.getFloatAttribute("x");
-//				float y=childUIDL.getFloatAttribute("y");
-//				
-//				if(childUIDL.hasAttribute("center_x")){
-//					double width=canvas.context2d.measureText(text).getWidth();
-//					x=(float) (x-(width/2f));
-//				}else if(childUIDL.hasAttribute("offset_x_by_width")){
-//					double width=canvas.context2d.measureText(text).getWidth();
-//					x=(float) (x-width);
-//				}
-//				
-//				int xI=(int)x;
-//				int yI=(int)y;
-//								
-//				canvas.context2d.fillText(text, xI, yI);
-//			}
-			@Override
-			public void fillText(final String text, final Double x,
-					final Double y) {
-				runCommand(new Command() {
-					@Override
-					public void execute() {
-						ctx.fillText(text, x, y);
+						DOM.setStyleAttribute(getWidget().getElement(),"backgroundColor", color);
 					}
 				});
-			}
-
-			@Override
-			public void setScroll(final int top, final int left) {
-
-				runCommand(new Command() {				
-					@Override
-					public void execute() {
-						int scrollTop = top;
-						int scrollLeft = left;
-						if(scrollTop==-1){
-							scrollTop=cachedScrollTop;
-						}
-						
-						scrollTopFinal=scrollTop;
-						
-						if(scrollLeft==-1){
-							scrollLeft=cachedScrollLeft;
-						}
-						
-						scrollLeftFinal=scrollLeft;
-						int scrollTopNow = getWidget().getParent().getElement().getScrollTop();
-						//int scrollTopNow=getElement().getParentElement().getScrollTop();
-						
-						if(scrollTopNow!=scrollTopFinal){
-							getWidget().getParent().getElement().setScrollTop(scrollTopFinal);
-							//getElement().getParentElement().setScrollTop(scrollTopFinal);					
-						}
-						
-						int scrollLeftNow = getWidget().getParent().getElement().getScrollLeft();
-						//	int scrollLeftNow=getElement().getParentElement().getScrollLeft();
-						
-						if(scrollLeftNow!=scrollLeftFinal){
-							getWidget().getParent().getElement().setScrollLeft(scrollLeftFinal);
-							//getElement().getParentElement().setScrollLeft(scrollLeftFinal); 
-						}						
-					}
-				}, false);
 				
 			}
 
 			@Override
-			public void setMinimumSize(final int width,final int height) {
+			public void redraw() {
+				for (Command command :commands) {
+					command.execute();
+				}
 				
-				runCommand(new Command() {					
+			}
+			@Override
+			public void daveClear(){
+				ctx.setTransform(1,0,0,1,0,0);
+				ctx.clearRect(0, 0,  getWidget().getCoordinateSpaceWidth(), getWidget().getCoordinateSpaceHeight());
+				/*runCommand(new Command() {
 					@Override
 					public void execute() {
-						minimumCanvasHeight = height;
-						minimumCanvasWidth = width;
-						updateDimensions();						
+						ctx.setTransform(1,0,0,1,0,0);
+						ctx.clearRect(0, 0, getWidget().getCoordinateSpaceHeight(), getWidget().getCoordinateSpaceWidth());		
 					}
-				}, false);
+				});*/
+				
+			}
+
+			@Override
+			public void strokeRect(Double startX, Double startY,
+					Double strokeWidth, Double strokeHeight,
+					boolean saveInCommands) {
+				ctx.strokeRect(startX, startY, strokeWidth,
+						strokeHeight);
+				
+			}
+
+			@Override
+			public void enableMouseSelectionRectangle(boolean enable) {				
+                enableMouseSelectionMode = enable;				
 			}
 			
-			
-			protected void updateDimensions(){
-				boolean repaint=false;
-				
-				int parentWidth=getWidget().getParent().getElement().getClientWidth(); //width of holding div
-				//int parentWidth=getElement().getParentElement().getClientWidth(); //width of holding div
-				
-				int width=getWidget().getElement().getClientWidth(); //should be canvas.style.width (I think)
-				//int width=getElement().getClientWidth(); //should be canvas.style.width (I think)
-				
-				if(minimumCanvasWidth>parentWidth){ //is minimum canvas width > current canvas width (must rely on parent width)
-					getWidget().setWidth(minimumCanvasWidth+"px");
-					getWidget().setCoordinateSpaceWidth(minimumCanvasWidth);
-					
-					lastCanvasWidth=minimumCanvasWidth;
-					
-					repaint=true;
-				}else if(width!=parentWidth){ //is the current canvas width equal to the parent width (if not reset to parent)
-					getWidget().setWidth(parentWidth+"px");
-					getWidget().setCoordinateSpaceWidth(parentWidth);
-					
-					lastCanvasWidth=parentWidth;
-					repaint=true;
-				}else if(width!=getWidget().getCoordinateSpaceWidth()){ //is the canvas.width property equal to the canvas.style.width
-					getWidget().setCoordinateSpaceWidth(width);
-					
-					lastCanvasWidth=width;
-					repaint=true;
-				}
-				
-				//see comments above
-				int parentHeight=getWidget().getParent().getElement().getClientHeight();
-				int height=getWidget().getElement().getClientHeight();
-				
-				if(minimumCanvasHeight>parentHeight){
-					getWidget().setHeight(minimumCanvasHeight+"px");
-					getWidget().setCoordinateSpaceHeight(minimumCanvasHeight);
-					repaint=true;
-					
-					lastCanvasHeight=minimumCanvasHeight;
-				}else if(height!=parentHeight){
-					getWidget().setHeight(parentHeight+"px");
-					getWidget().setCoordinateSpaceHeight(parentHeight);
-					repaint=true;
-					
-					lastCanvasHeight=parentHeight;
-				}else if(height!=getWidget().getCoordinateSpaceHeight()){
-					getWidget().setCoordinateSpaceHeight(height);
-					repaint=true;
-					
-					lastCanvasHeight=height;
-				}
-				
-				if(repaint){
-					getWidget().getParent().getElement().setScrollLeft(scrollLeftFinal);
-					getWidget().getParent().getElement().setScrollTop(scrollTopFinal);
-					
-//					clear();
-//					
-//					if (client != null && lastDrawCommandSet.length()>0) {
-//						redraw();
-//						
-//					}			
-				}
-			}
-
 			@Override
-			public void stopResizeThread() {
-				// TODO Auto-generated method stub NOT USED
-				
-			}
-
-			@Override
-			public void setParent(Component parent) {
-				// TODO Auto-generated method stub NOT USED
-				
-			}
-
-			@Override
-			public void enableMouseSelectionRectangle(final boolean enable) {
-				runCommand(new Command() {
-					
-					@Override
-					public void execute() {
-						enableMouseSelectionMode = enable;
-					}
-				}, false);
-				
-			}
-
-			@Override
-			public void respondToExportRequest(String exportResponse) {
-				runCommand(new Command() {
-					
-					@Override
-					public void execute() {
-						// TODO Auto-generated method stub IMPLEMENTATION IS EMPTY IN VCANVAS
-						
-					}
-				}, false);				
-			}
-
-			@Override
-			public void setName(String name) {
-				// TODO Auto-generated method stub IMPLEMENTATION IS EMPTY IN VCANVAS
-			}
-
-			@Override
-			public void setSizeFull() {
-				
+			public void bezierCurveTo(final Double cp1x, final Double cp1y, final Double cp2x,
+					final Double cp2y, final Double x, final Double y) {
 				runCommand(new Command() {
 					@Override
 					public void execute() {
-						//getElement().getParentElement().getStyle().setWidth(100, Unit.PCT);
-						getWidget().getParent().getElement().getStyle().setWidth(100, Unit.PCT);
-						//getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
-						getWidget().getParent().getElement().getStyle().setHeight(100, Unit.PCT);						
+						ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
 					}
 				});
-			}
-
-			@Override
-			public void clear() {
-				clear();
 				
 			}
-
-			@Override
-			public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
-					Double cp2y, Double x, Double y) {
-				ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);				
-			}
-			
-		});
+		};
+		registerRpc(CanvasClientRpc.class, clientRpc);
 	}
+	
 
 	@Override
 	protected Widget createWidget() {
@@ -990,49 +773,11 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	}
 
 	public void runCommand(Command command) {
-		runCommand(command, true);
-	}
-	
-	public void runCommand(Command command, boolean includeInDrawingCommands) {
 		if (commands.add(command))
-		{
-			if (includeInDrawingCommands)
-			{
-				drawingCommands.add(command);
-			}
 			command.execute();
-		}
 	}
 
 	public void clearCommands() {
-		commands.removeAll(drawingCommands);
+		commands.clear();
 	}
-
-	private void redraw(){
-		if(regenerateFastDraw){
-			regenerateFastDraw=false;
-			
-//			say("redrawing: "+lastCanvasHeight);
-			
-			imageData=ctx.getImageData(0, 0, lastCanvasWidth, lastCanvasHeight);
-		
-			//slow
-			bufferCanvas.setCoordinateSpaceHeight(lastCanvasHeight);
-			bufferCanvas.setCoordinateSpaceWidth(lastCanvasWidth);
-			bufferCanvas.getContext2d().putImageData(imageData, 0, 0);
-		}
-		
-		//fast
-		ctx.drawImage(bufferCanvas.getCanvasElement(), 0, 0);
-		
-		//canvas.context2d.putImageData(imageData, 0, 0);
-	}
-	
-
-	public void clear() {
-		ctx.clearRect(0, 0, getWidget().getCoordinateSpaceWidth(),
-				getWidget().getCoordinateSpaceHeight());
-		clearCommands();
-	}
-	
 }

@@ -325,7 +325,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 		
 		if(!theDoc.isEmpty()){
 			theWorkspace.getGlycanRenderer().computeBoundingBoxes(theDoc.getStructures(), theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);
-
+			/*TODO-PP
 			if(thePaintable instanceof CanvasPaintable){
 				if(selectionRedraw){
 					//TODO: re-add scrollTo method.
@@ -350,7 +350,7 @@ public class GlycanCanvas implements DocumentChangeListener, Serializable{
 				}
 				
 				
-			}
+			}*/
 			
 			for(Glycan glycan:theDoc.getStructures()){
 				theWorkspace.getGlycanRenderer().paint(thePaintable,glycan, selectedResidues, selectedLinkages, theWorkspace.getGraphicOptions().SHOW_MASSES_CANVAS,theWorkspace.getGraphicOptions().SHOW_REDEND_CANVAS, posManager, theBBoxManager);

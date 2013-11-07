@@ -120,8 +120,8 @@ public class LinkageRendererCanvas extends AbstractLinkageRenderer{
 			
 			theCanvas.setFont("9pt Calibri");
 			theCanvas.setFillStyle("black");
-			theCanvas.textAlign("left");
-			theCanvas.fillText(text, Double.valueOf(pos.x), Double.valueOf(pos.y+2));
+			//TODO-PP theCanvas.textAlign("left");
+			//TODO-PP theCanvas.fillText(text, Double.valueOf(pos.x), Double.valueOf(pos.y+2));
 			
 //			//theGraphicOptions.LINKAGE_INFO_SIZE => will be the font scale factor
 //			theCanvas.saveContext();
@@ -307,7 +307,7 @@ public class LinkageRendererCanvas extends AbstractLinkageRenderer{
 		
 		theCanvas.beginPath();
 		theCanvas.moveTo(x1, y1);
-		theCanvas.cubicCurveTo(tx1, ty1, tx2, ty2, x2, y2);
+		//TODO-PP theCanvas.cubicCurveTo(tx1, ty1, tx2, ty2, x2, y2);
 		setStrokeColour(paintable,Color.BLACK);
 		theCanvas.stroke();
 		theCanvas.closePath();

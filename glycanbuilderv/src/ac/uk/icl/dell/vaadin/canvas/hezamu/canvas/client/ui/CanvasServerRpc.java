@@ -9,9 +9,4 @@ public interface CanvasServerRpc extends ServerRpc {
 	public void imagesLoaded();
 	
 	public void mouseDown(int x, int y);
-
-	public void mouseUp(int x, int y);
-
-	public void mouseMove(int x, int y);
-
 }

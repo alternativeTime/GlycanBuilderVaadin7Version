@@ -1,4 +1,4 @@
-@import url(../reindeer/styles.css);
+@import url(../reindeer/legacy-styles.css);
 @import url(../chameleon/components/button/button.css);
 
 /* CSS for none-generic components */
@@ -17,7 +17,7 @@
 .toolbar .v-nativebutton {
         display: block;
         width: 65px;
-        height: 55px;
+        height: 60x;
         background: transparent;
         border: thin;
         text-align: center;
@@ -34,6 +34,10 @@
 .toolbar .v-nativebutton span {
         font-size: x-small;
         text-shadow: #fafafa 1px 1px 0;
+}
+.toolbar .v-slot {
+	float: left; 
+	margin-left: 0px;
 }
 
 .white-background {

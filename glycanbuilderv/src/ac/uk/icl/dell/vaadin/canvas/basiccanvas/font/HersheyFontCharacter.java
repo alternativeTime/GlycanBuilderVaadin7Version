@@ -16,12 +16,12 @@ package ac.uk.icl.dell.vaadin.canvas.basiccanvas.font;
 import java.util.List;
 
 class HersheyFontCharacter{
-        List<Float[]> vertices;
-        float width;
-        char character;
-        
-        public HersheyFontCharacter(List<Float[]> vertices, int width) {
-                this.vertices=vertices;
-                this.width=width;
-        }
+	List<Float[]> vertices;
+	float width;
+	char character;
+	
+	public HersheyFontCharacter(List<Float[]> vertices, int width) {
+		this.vertices=vertices;
+		this.width=width;
+	}
 }

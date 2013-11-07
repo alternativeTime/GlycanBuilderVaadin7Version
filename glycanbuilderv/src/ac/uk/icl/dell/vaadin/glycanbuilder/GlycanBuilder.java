@@ -80,12 +80,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 	protected List<MenuItem> menuItems=new ArrayList<MenuItem>();
 	
 	
-	public enum GlycanBuilderMode{
-		STANDALONE(),DOCKED();
-	}
-	
-	GlycanBuilderMode glycanBuilderMode=GlycanBuilderMode.DOCKED;
-	
 	protected ApplicationMenu theAppMenu;
 
 	private MenuItem structureItem;
@@ -95,7 +89,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 	public GlycanBuilder(){
 		this(menu=new SimpleFileMenu());
 		
-		menu.addStyleName("icl-grey-menu");
+		//menu.addStyleName("icl-grey-menu");
 	}
 	
 	public GlycanBuilder(ApplicationMenu appMenu){
@@ -112,9 +106,8 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		theCanvas.enableMouseSelectionRectangle(true);
 		theCanvas.theCanvas.addResidueHistoryListener(this);	
 		
-		if(appMenu==menu){
-			mainLayout.addComponent(menu);
-		}
+		mainLayout.addComponent(menu);
+		
 		
 		initToolBars();
 		
@@ -144,9 +137,9 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 			@Override
 			public void exportRequest(String fullCommand) {
 				try{
+					/*TODO-PP
 					if(fullCommand.contains("~")){
-						String cols[]=fullCommand.split("~");
-
+						String cols[]=fullCommand.split("~");						
 						String command=cols[0];
 						if(command.equals("export")){
 							if(cols.length!=2){
@@ -190,9 +183,9 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 						}
 					}else{
 						theCanvas.respondToExportRequest("ERROR:Unable to extract command");
-					}
+					}*/
 				}catch(Exception ex){
-					theCanvas.respondToExportRequest("ERROR:An exception as occurred");
+					///TODO-PP theCanvas.respondToExportRequest("ERROR:An exception as occurred");
 				}
 			}
 		});
@@ -200,12 +193,13 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		initFileMenu();
 		initViewMenu();
 		initStructureMenu();
+		setCompositionRoot(mainLayout);
 		
 		//TODO:create minimumSize method.
-		theCanvas.setMinimumSize(1, 1);
+		//TODO-PP theCanvas.setMinimumSize(1, 1);
 		
-		theResidueCanvas.setSizeFull();
-		theResidueCanvas.setMinimumSize(1, 25);
+		//TODO-PP theResidueCanvas.setSizeFull();
+		// TODO-PPtheResidueCanvas.setMinimumSize(1, 25);
 	}
 	
 	public static void removeMenuItems(com.vaadin.ui.MenuBar.MenuItem structureItem2){
@@ -228,7 +222,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 	
 	private void initToolBars(){
 		theToolBarPanel=new Panel();
-		theToolBarPanel.setContent(new HorizontalLayout());
+		
 		
 			UI.getCurrent().addActionHandler(new Handler(){
 			private static final long serialVersionUID=1735392108529734256L;
@@ -278,9 +272,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		
 		mainLayout.addComponent(theToolBarPanel);
 		
-		Panel theLinkageToolBarPanel=new Panel();
-		theLinkageToolBarPanel.setContent(new HorizontalLayout());
-		theLinkageToolBarPanel.setWidth("100%");
+		Panel theLinkageToolBarPanel = new Panel();
 		//theLinkageToolBarPanel.setScrollable(true);
 		
 		theCanvas.appendLinkageToolBar(theLinkageToolBarPanel);
@@ -294,7 +286,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		theResidueCanvas.setBackgroundColor("#CCF");
 		
 		theResidueCanvas.setHeight("25px");
-		//theResidueCanvas.setWidth("100%");
+		theResidueCanvas.setWidth("100%");
 		
 		//TODO: refactor this method back into the canvas code
 		theResidueCanvas.enableMouseSelectionRectangle(false);

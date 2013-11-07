@@ -537,7 +537,7 @@ public abstract class BaseShape {
 
     	canvas.beginPath();
 		canvas.moveTo(x1, y1);
-		canvas.cubicCurveTo(tx1, ty1, tx2, ty2, x2, y2);
+		//TODO-PP canvas.cubicCurveTo(tx1, ty1, tx2, ty2, x2, y2);
 		canvas.stroke();
 		canvas.closePath();
     }
@@ -566,7 +566,7 @@ public abstract class BaseShape {
 
     	canvas.beginPath();
 		canvas.moveTo(x11, y11);
-		canvas.cubicCurveTo(tx11, ty11, tx21, ty21, x21, y21);
+		//TODO-PP canvas.cubicCurveTo(tx11, ty11, tx21, ty21, x21, y21);
 		canvas.stroke();
 		canvas.closePath();
 
@@ -588,7 +588,7 @@ public abstract class BaseShape {
 
     	canvas.beginPath();
 		canvas.moveTo(x12, y12);
-		canvas.cubicCurveTo(tx12, ty12, tx22, ty22, x22, y22);
+		//TODO-PP canvas.cubicCurveTo(tx12, ty12, tx22, ty22, x22, y22);
 		canvas.stroke();
 		canvas.closePath();
     }

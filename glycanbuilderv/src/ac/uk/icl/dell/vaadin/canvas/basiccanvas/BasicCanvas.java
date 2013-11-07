@@ -3,6 +3,12 @@ package ac.uk.icl.dell.vaadin.canvas.basiccanvas;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
+
+
+
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontCharacter;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontPoint;
@@ -10,6 +16,7 @@ import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontSegment;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseDownListener;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseUpListener;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseMoveListener;
+
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas;
 
 public class BasicCanvas extends Canvas implements CanvasMouseDownListener, CanvasMouseUpListener, CanvasMouseMoveListener{
@@ -212,7 +219,7 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
     		height=_height;
     	}
     }
-    
+
     @Override
 	public void mouseDown(int x, int y) {
     	mouseDownXValue = x;
@@ -247,8 +254,7 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 	public void addSelectionListener(SelectionListener listener){
 		selectionListeners.add(listener);
 	}
-	
-	
+		
 	
     public void notifyExportListeners(String type){
     	for(ExportListener listener:exportListeners){

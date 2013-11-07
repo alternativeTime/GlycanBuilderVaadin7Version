@@ -64,8 +64,8 @@ public class GlycanRendererCanvas extends AbstractGlycanRenderer{
 		canvas.setFont("14pt Calibri");
 		canvas.setFillStyle("black");
 		//TODO: find alternative.
-		canvas.textAlign("left");
-		canvas.fillText(getMassText(structure), Double.valueOf(Geometry.left(structure_all_bbox)), Double.valueOf(Geometry.bottom(structure_all_bbox)+20));
+		//TODO-PP canvas.textAlign("left");
+		//TODO-PP canvas.fillText(getMassText(structure), Double.valueOf(Geometry.left(structure_all_bbox)), Double.valueOf(Geometry.bottom(structure_all_bbox)+20));
 		
 //		canvas.saveContext();
 //		canvas.setLineWidth(2.0);
