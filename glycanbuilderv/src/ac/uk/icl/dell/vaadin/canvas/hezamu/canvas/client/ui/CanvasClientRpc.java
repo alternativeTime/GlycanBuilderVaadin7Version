@@ -137,4 +137,8 @@ public interface CanvasClientRpc extends ClientRpc {
 	// beginPath() and moveTo() methods to define a starting point.
 	public void bezierCurveTo(Double cp1x, Double cp1y, Double cp2x,
             Double cp2y, Double x, Double y);
+
+	public void textAlign(String textAlign);
+
+	public void fillText(String text, double x, double y);
 }

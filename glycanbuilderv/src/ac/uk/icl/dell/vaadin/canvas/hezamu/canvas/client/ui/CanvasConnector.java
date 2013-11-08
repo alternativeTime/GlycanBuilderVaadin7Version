@@ -728,6 +728,28 @@ public class CanvasConnector extends AbstractComponentConnector implements
 				});
 				
 			}
+
+			@Override
+			public void textAlign(final String textAlign) {
+				runCommand(new Command() {
+					
+					@Override
+					public void execute() {
+						ctx.setTextAlign(textAlign);
+					}
+				});
+			}
+
+			@Override
+			public void fillText(final String text, final double x, final double y) {
+				runCommand(new Command() {
+					
+					@Override
+					public void execute() {
+						ctx.fillText(text, x, y);
+					}
+				});
+			}
 		};
 		registerRpc(CanvasClientRpc.class, clientRpc);
 	}

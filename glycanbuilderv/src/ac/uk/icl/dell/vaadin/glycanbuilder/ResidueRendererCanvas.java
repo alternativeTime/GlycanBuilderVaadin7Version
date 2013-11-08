@@ -195,8 +195,7 @@ public class ResidueRendererCanvas extends AbstractResidueRenderer{
 				}
 
 				canvas.setFillStyle("black");
-				//TODO:see todo below
-				//TODO-PP canvas.textAlign("center");
+				canvas.textAlign("center");
 				
 				double rotate=0;
 				if( !(angle.equals(0) || orientation.equals(180))){
@@ -249,8 +248,6 @@ public class ResidueRendererCanvas extends AbstractResidueRenderer{
 		canvas.setFont("8pt Calibri");
 		canvas.setFillStyle("black");
 
-		//TODO: refactor the alignment, find alternative.
-		/*TODO-PP
 		if(position==Position.TOP){
 			if(angle.getIntAngle()==180){
 				canvas.textAlign("left");
@@ -279,7 +276,7 @@ public class ResidueRendererCanvas extends AbstractResidueRenderer{
 				canvas.textAlign("left");
 				canvas.fillText(text, x+cur_bbox.width-10, y+(cur_bbox.height/2)+1);
 			}
-		}*/
+		}
 	
 		Color colour=style.getTextColor();
 		canvas.setStrokeStyle(colour.getRed(),colour.getGreen(), colour.getBlue());

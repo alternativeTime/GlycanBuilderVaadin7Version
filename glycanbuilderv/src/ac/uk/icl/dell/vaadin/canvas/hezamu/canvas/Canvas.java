@@ -746,6 +746,16 @@ public class Canvas extends AbstractComponent {
 		rpc.loadImages(urls);
 	}
 
+
+	public void textAlign(String textAlign) {
+		rpc.textAlign(textAlign);
+	}
+	
+	public void fillText(String text, double x, double y) {
+		rpc.fillText(text, x, y);
+	}
+	
+	
 	/**
 	 * The listener interface for receiving canvasClick events. The class that
 	 * is interested in processing a canvasClick event implements this

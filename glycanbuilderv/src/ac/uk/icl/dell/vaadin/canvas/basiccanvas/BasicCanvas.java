@@ -254,5 +254,5 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
     		listener.exportRequest(type);
     	}
     }
-	
+
 }

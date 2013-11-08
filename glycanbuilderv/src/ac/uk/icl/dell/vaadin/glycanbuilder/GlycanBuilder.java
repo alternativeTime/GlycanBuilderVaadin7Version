@@ -102,7 +102,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		theCanvas=new VaadinGlycanCanvas();
 		theCanvas.setSizeFull();
 		
-		//TODO: refactor this method back into the canvas code
 		theCanvas.enableMouseSelectionRectangle(true);
 		theCanvas.theCanvas.addResidueHistoryListener(this);	
 		
@@ -110,9 +109,12 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		
 		
 		initToolBars();
-		
-		mainLayout.addComponent(theCanvas);
-		mainLayout.setExpandRatio(theCanvas, 1);
+		Panel panel = new Panel();
+		panel.setWidth("100%");
+		panel.setHeight("100%");
+		panel.setContent(theCanvas);
+		mainLayout.addComponent(panel);
+		mainLayout.setExpandRatio(panel, 1);
 		
 		theCanvas.theCanvas.addNotationListener(new NotationChangedListener() {
 			@Override
@@ -130,7 +132,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 			}
 		});
 		
-		//TODO: seems to be unused so don't see why it needs to be set.
 		theCanvas.setBackgroundColor("#CCF");
 		
 		theCanvas.addExportListener(new ExportListener(){
@@ -198,7 +199,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		//TODO:create minimumSize method.
 		//TODO-PP theCanvas.setMinimumSize(1, 1);
 		
-		//TODO-PP theResidueCanvas.setSizeFull();
+		theResidueCanvas.setSizeFull();
 		// TODO-PPtheResidueCanvas.setMinimumSize(1, 25);
 	}
 	
@@ -282,13 +283,11 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		mainLayout.addComponent(theLinkageToolBarPanel);
 		
 		theResidueCanvas=new VaadinGlycanCanvas();
-		//TODO: seems to be unused so don't see why it needs to be set.
 		theResidueCanvas.setBackgroundColor("#CCF");
 		
-		theResidueCanvas.setHeight("25px");
-		theResidueCanvas.setWidth("100%");
+		//theResidueCanvas.setHeight("25px");
+		//theResidueCanvas.setWidth("100%");
 		
-		//TODO: refactor this method back into the canvas code
 		theResidueCanvas.enableMouseSelectionRectangle(false);
 		theResidueCanvas.theCanvas.getWorkspace().getGlycanRenderer().getGraphicOptions().MARGIN_TOP=2;
 		

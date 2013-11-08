@@ -120,8 +120,8 @@ public class LinkageRendererCanvas extends AbstractLinkageRenderer{
 			
 			theCanvas.setFont("9pt Calibri");
 			theCanvas.setFillStyle("black");
-			//TODO-PP theCanvas.textAlign("left");
-			//TODO-PP theCanvas.fillText(text, Double.valueOf(pos.x), Double.valueOf(pos.y+2));
+			theCanvas.textAlign("left");
+			theCanvas.fillText(text, Double.valueOf(pos.x), Double.valueOf(pos.y+2));
 			
 //			//theGraphicOptions.LINKAGE_INFO_SIZE => will be the font scale factor
 //			theCanvas.saveContext();
