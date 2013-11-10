@@ -39,7 +39,6 @@ import com.vaadin.ui.VerticalLayout;
 public class GlycanBuilderWindow extends UI{
 
 	@WebServlet(value = "/*", asyncSupported = true)
-	//@VaadinServletConfiguration(productionMode = false, ui = WhateverUI.class, widgetset = "com.example.whatever.widgetset.WhateverWidgetset")
 	@VaadinServletConfiguration(productionMode = true, ui = GlycanBuilderWindow.class, widgetset = "ac.uk.icl.dell.vaadin.glycanbuilder.widgetset.GlycanbuilderWidgetset")
 	public static class Servlet extends VaadinServlet {
 		private static final long serialVersionUID = 4956233270191237091L;

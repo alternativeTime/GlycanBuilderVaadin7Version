@@ -52,6 +52,16 @@ public class Canvas extends AbstractComponent {
 				fireMouseDown(x,y);
 				
 			}
+
+			@Override
+			public void mouseUp(int x, int y) {
+				fireMouseUp(x, y);
+			}
+
+			@Override
+			public void mouseMove(int x, int y) {
+				fireMouseMove(x, y);
+			}
 		});
 	}
 
@@ -234,19 +244,19 @@ public class Canvas extends AbstractComponent {
 
 	/**
 	 * Adds a point to the current path by using the specified control points
-	 * that represent a quadratic B���zier curve.
+	 * that represent a quadratic B���������zier curve.
 	 * 
-	 * A quadratic B���zier curve requires two points. The first point is a
-	 * control point that is used in the quadratic B���zier calculation and the
+	 * A quadratic B���������zier curve requires two points. The first point is a
+	 * control point that is used in the quadratic B���������zier calculation and the
 	 * second point is the ending point for the curve. The starting point for
 	 * the curve is the last point in the current path. If a path does not
 	 * exist, use the {@link #beginPath()} and {@link #moveTo(double, double)}
 	 * methods to define a starting point.
 	 * 
 	 * @param cpx
-	 *            The X coordinate of the B���zier control point
+	 *            The X coordinate of the B���������zier control point
 	 * @param cpy
-	 *            The Y coordinate of the B���zier control point
+	 *            The Y coordinate of the B���������zier control point
 	 * @param x
 	 *            The X coordinate of the ending point
 	 * @param y

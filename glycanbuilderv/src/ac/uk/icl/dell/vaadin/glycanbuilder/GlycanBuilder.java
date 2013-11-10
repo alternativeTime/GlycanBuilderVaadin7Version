@@ -110,8 +110,7 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		
 		initToolBars();
 		Panel panel = new Panel();
-		panel.setWidth("100%");
-		panel.setHeight("100%");
+		panel.setSizeFull();
 		panel.setContent(theCanvas);
 		mainLayout.addComponent(panel);
 		mainLayout.setExpandRatio(panel, 1);

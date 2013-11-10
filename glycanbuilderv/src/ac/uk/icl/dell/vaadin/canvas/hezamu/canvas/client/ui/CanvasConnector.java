@@ -47,7 +47,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	private final List<Command> commands;
 	private int lastXPosMove,lastYPosMove;
 	
-	private int lastWidth,lastHeight;
 	private int startX,startY;
 	boolean mouseDown = false;
 	private boolean enableMouseSelectionMode = false;
@@ -130,7 +129,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 				else{
 					//TODO: mouse up event
 				}
-					//rpc.mouseUp(x, y);
+					rpc.mouseUp(x, y);
 				}			
 		});
 		
@@ -163,13 +162,11 @@ public class CanvasConnector extends AbstractComponentConnector implements
 							height=y-y1;
 						}
 						
-						lastWidth=width;
-						lastHeight=height;
 						clientRpc.daveClear();
 						clientRpc.redraw();
 						clientRpc.saveContext();
 						clientRpc.setLineWidth(1d);
-						clientRpc.setStrokeStyle("rgb(25, 250, 150)");
+						clientRpc.setStrokeStyle("#000");
 						clientRpc.strokeRect((double)x1, (double)y1, (double)width, (double)height, false);
 						clientRpc.restoreContext();
 						
@@ -192,7 +189,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					//client.updateVariable(paintableId, "event", "mousemove", true);
 				}
 				
-			//	rpc.mouseMove(x, y);
+				rpc.mouseMove(x, y);
 				
 			}
 		});
@@ -200,7 +197,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			private static final long serialVersionUID = -7521521510799765779L;
 
 			private final Context2d ctx = getWidget().getContext2d();
-			private Canvas bufferCanvas = Canvas.createIfSupported();
 
 			@Override
 			public void fillRect(final Double startX, final Double startY,
