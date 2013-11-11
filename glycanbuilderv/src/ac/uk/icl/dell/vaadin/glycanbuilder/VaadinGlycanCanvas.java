@@ -252,8 +252,8 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		};
 		
 		importFromStringWindow.setCaption("Import sequence from string");
-		importFromStringWindow.setWidth("400px");
-		
+		importFromStringWindow.setWidth("50%");
+		importFromStringWindow.setHeight("50%");
 		final ImportStructureFromStringDialog importStructureStringDialog=new ImportStructureFromStringDialog(theCanvas);
 		
 		importStructureStringDialog.addListener(new UserInputEndedListener() {
