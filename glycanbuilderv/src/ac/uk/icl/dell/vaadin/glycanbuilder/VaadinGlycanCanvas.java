@@ -1068,6 +1068,9 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		toolBar.addComponent(field_second_bond);
 		
 		toolBar.addComponent(linkage_two_panel);
+		HorizontalLayout filler = new HorizontalLayout();
+		toolBar.addComponent(filler);
+		toolBar.setExpandRatio(filler, 1f);
 		
 		//linkagePanel.removeAllComponents();
 		linkagePanel.setContent(toolBar);

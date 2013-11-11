@@ -137,14 +137,13 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 			@Override
 			public void exportRequest(String fullCommand) {
 				try{
-					/*TODO-PP
 					if(fullCommand.contains("~")){
 						String cols[]=fullCommand.split("~");						
 						String command=cols[0];
 						if(command.equals("export")){
 							if(cols.length!=2){
 								//TODO: refactor logging to be vaadin 7 compliant 
-								theCanvas.respondToExportRequest("Export command without type");
+								//theCanvas.respondToExportRequest("Export command without type");
 							}else{
 								String type=cols[1];
 
@@ -159,31 +158,31 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 								}
 
 								if(sequence!=null){
-									theCanvas.respondToExportRequest(sequence);
+									//theCanvas.respondToExportRequest(sequence);
 								}else{
-									theCanvas.respondToExportRequest("sequence is null");
+									//theCanvas.respondToExportRequest("sequence is null");
 								}
 							}
 						}else if(command.equals("import")){
 							if(cols.length!=3){
-								theCanvas.respondToExportRequest("Import command without format and or value");
+								//theCanvas.respondToExportRequest("Import command without format and or value");
 							}else{
 								String type=cols[1];
 								
 								String value=cols[2].replaceAll("<br/>","\n"); //for debugger
 								
 								if(!theCanvas.theCanvas.theDoc.importFromString(value,type)){
-									theCanvas.respondToExportRequest("ERROR:"+LogUtils.getLastError());
+									//theCanvas.respondToExportRequest("ERROR:"+LogUtils.getLastError());
 									
 									LogUtils.clearLastError();
 								}
 							}
 						}else{
-							theCanvas.respondToExportRequest("ERROR:Unable to extract command");
+							//theCanvas.respondToExportRequest("ERROR:Unable to extract command");
 						}
 					}else{
-						theCanvas.respondToExportRequest("ERROR:Unable to extract command");
-					}*/
+						//theCanvas.respondToExportRequest("ERROR:Unable to extract command");
+					}
 				}catch(Exception ex){
 					///TODO-PP theCanvas.respondToExportRequest("ERROR:An exception as occurred");
 				}
