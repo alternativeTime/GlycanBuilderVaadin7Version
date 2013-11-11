@@ -111,8 +111,8 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					clientRpc.daveClear();
 					clientRpc.redraw();
 					
-					x=startX > x ? x: startX;
-					y=startY > y ? y: startY;
+					//x=startX > x ? x: startX;
+					//y=startY > y ? y: startY;
 					
 					mouseDown=false;
 					//TODO

@@ -233,7 +233,8 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 	public void mouseUp(int x, int y) {
 		if (mouseDownXValue != x || mouseDownYValue != y)
 		{
-				notifySelectionListeners(mouseDownXValue, mouseDownYValue, Math.abs(mouseDownXValue - x), Math.abs(mouseDownYValue - y), true);			
+				notifySelectionListeners(mouseDownXValue < x ? mouseDownXValue : x, mouseDownYValue < y ? mouseDownYValue : y,
+						Math.abs(mouseDownXValue - x), Math.abs(mouseDownYValue - y), true);			
 		}
 		super.moveTo(x, y);
 	}
