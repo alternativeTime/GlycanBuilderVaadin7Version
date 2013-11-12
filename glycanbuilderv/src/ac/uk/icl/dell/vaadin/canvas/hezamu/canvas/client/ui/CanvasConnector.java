@@ -9,7 +9,6 @@ import java.util.Map;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,8 +20,9 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
@@ -46,8 +46,8 @@ public class CanvasConnector extends AbstractComponentConnector implements
 
 	private final List<Command> commands;
 	private int lastXPosMove,lastYPosMove;
-	
-	private int startX,startY;
+	private MouseMoveHandler mouseMoveHandler;
+	private HandlerRegistration mouseMoveRegistration;
 	boolean mouseDown = false;
 	private boolean enableMouseSelectionMode = false;
 	private int mouseDownPoint_x,mouseDownPoint_y;
@@ -64,7 +64,45 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	@Override
 	protected void init() {
 		super.init();
-
+		mouseMoveHandler = new MouseMoveHandler() {				
+				@Override
+				public void onMouseMove(MouseMoveEvent event) {
+					int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
+					int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
+					
+					if(enableMouseSelectionMode){
+						if(mouseDown && ( (x-lastXPosMove >10 || x-lastXPosMove < -10) || ((y-lastYPosMove >10 || y-lastYPosMove < -10)))){
+							lastXPosMove=x;
+							lastYPosMove=y;
+							int x1,y1,width,height;
+							
+							if(mouseDownPoint_x > x){
+								x1=x;
+								width=mouseDownPoint_x-x1;
+							}else{
+								x1=mouseDownPoint_x;
+								width=x-x1;
+							}
+							
+							if(mouseDownPoint_y > y){
+								y1=y;
+								height=mouseDownPoint_y-y1;
+							}else{
+								y1=mouseDownPoint_y;
+								height=y-y1;
+							}
+							
+							clientRpc.daveClear();
+							clientRpc.redraw();
+							clientRpc.saveContext();
+							clientRpc.setLineWidth(1d);
+							clientRpc.setStrokeStyle("#000");
+							clientRpc.strokeRect((double)x1, (double)y1, (double)width, (double)height, false);
+							clientRpc.restoreContext();							
+						}					
+					}										
+				}
+			};
 		getWidget().addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				MouseEventDetails med = MouseEventDetailsBuilder
@@ -87,14 +125,14 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					lastXPosMove=x;
 					lastYPosMove=y;
 					mouseDown=true;
-					startX=x;
-					startY=y;
+					//register new mouse move listener
+					mouseMoveRegistration = getWidget().addMouseMoveHandler(mouseMoveHandler);
+					
 				}
 				else
 				{
 					//TODO: mouse down event
 				}
-			//rpc.mouseDown(startX, startY);
 			rpc.mouseDown(x,y);
 			}
 		});
@@ -113,16 +151,12 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					
 					//x=startX > x ? x: startX;
 					//y=startY > y ? y: startY;
-					
+					if (mouseMoveRegistration != null) {
+						mouseMoveRegistration.removeHandler();
+						mouseMoveRegistration = null;
+					}					
 					mouseDown=false;
-					//TODO
-//					client.updateVariable(paintableId, "mx", x, false);
-//					client.updateVariable(paintableId, "my", y, false);
-//					client.updateVariable(paintableId, "lastwidth", lastWidth, false);
-//					client.updateVariable(paintableId, "lastheight", lastHeight, false);
-//					client.updateVariable(paintableId, "mousemoved", mouseMoved, false);
-//					client.updateVariable(paintableId, "event", "mousemoveselection", true);
-					
+					//TODO					
 					//cachedScrollTop=getWidget().getElement().getParentElement().getScrollTop();
 					//cachedScrollLeft=getWidget().getElement().getParentElement().getScrollLeft();
 				}										
@@ -133,66 +167,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 				}			
 		});
 		
-		getWidget().addMouseMoveHandler(new MouseMoveHandler() {
-			
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
-				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
-				
-				if(enableMouseSelectionMode){
-					if(mouseDown && ( (x-lastXPosMove >10 || x-lastXPosMove < -10) || ((y-lastYPosMove >10 || y-lastYPosMove < -10)))){
-						lastXPosMove=x;
-						lastYPosMove=y;
-						int x1,y1,width,height;
-						
-						if(mouseDownPoint_x > x){
-							x1=x;
-							width=mouseDownPoint_x-x1;
-						}else{
-							x1=mouseDownPoint_x;
-							width=x-x1;
-						}
-						
-						if(mouseDownPoint_y > y){
-							y1=y;
-							height=mouseDownPoint_y-y1;
-						}else{
-							y1=mouseDownPoint_y;
-							height=y-y1;
-						}
-						
-						clientRpc.daveClear();
-						clientRpc.redraw();
-						clientRpc.saveContext();
-						clientRpc.setLineWidth(1d);
-						clientRpc.setStrokeStyle("#000");
-						clientRpc.strokeRect((double)x1, (double)y1, (double)width, (double)height, false);
-						clientRpc.restoreContext();
-						
-					}
-					//TODO
-//					else if(fireMouseMoveEvents){
-//						client.updateVariable(paintableId, "mx", x, false);
-//						client.updateVariable(paintableId, "my", y, false);
-//						client.updateVariable(paintableId, "lastwidth", 0, false);
-//						client.updateVariable(paintableId, "lastheight", 0, false);
-//						client.updateVariable(paintableId, "mousemoved", true, false);
-//						
-//						client.updateVariable(paintableId, "event", "mousemoveselection", true);
-//					}
-				}
-				else{
-					//TODO
-					//client.updateVariable(paintableId, "mx", x, false);
-					//client.updateVariable(paintableId, "my", y, false);
-					//client.updateVariable(paintableId, "event", "mousemove", true);
-				}
-				
-				rpc.mouseMove(x, y);
-				
-			}
-		});
 		clientRpc =   new CanvasClientRpc() {
 			private static final long serialVersionUID = -7521521510799765779L;
 
@@ -798,4 +772,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	public void clearCommands() {
 		commands.clear();
 	}
+	
+	
 }

@@ -30,7 +30,6 @@ public class Canvas extends AbstractComponent {
 	private final List<CanvasClickListener> clickListeners = new ArrayList<CanvasClickListener>();
 	private final List<CanvasMouseDownListener> downListeners = new ArrayList<CanvasMouseDownListener>();
 	private final List<CanvasMouseUpListener> upListeners = new ArrayList<CanvasMouseUpListener>();
-	private final List<CanvasMouseMoveListener> moveListeners = new ArrayList<CanvasMouseMoveListener>();
 	private final List<CanvasImageLoadListener> imageLoadListeners = new ArrayList<CanvasImageLoadListener>();
 	private final CanvasClientRpc rpc = getRpcProxy(CanvasClientRpc.class);
 
@@ -56,11 +55,6 @@ public class Canvas extends AbstractComponent {
 			@Override
 			public void mouseUp(int x, int y) {
 				fireMouseUp(x, y);
-			}
-
-			@Override
-			public void mouseMove(int x, int y) {
-				fireMouseMove(x, y);
 			}
 		});
 	}
@@ -918,25 +912,4 @@ public class Canvas extends AbstractComponent {
 		}
 	}
 
-	public interface CanvasMouseMoveListener {
-		public void mouseMove(int x, int y);
-	}
-
-	public void addListener(CanvasMouseMoveListener listener) {
-		if (!moveListeners.contains(listener)) {
-			moveListeners.add(listener);
-		}
-	}
-
-	public void removeListener(CanvasMouseMoveListener listener) {
-		if (moveListeners.contains(listener)) {
-			moveListeners.remove(listener);
-		}
-	}
-
-	private void fireMouseMove(int x, int y) {
-		for (CanvasMouseMoveListener listener : moveListeners) {
-			listener.mouseMove(x, y);
-		}
-	}
 }

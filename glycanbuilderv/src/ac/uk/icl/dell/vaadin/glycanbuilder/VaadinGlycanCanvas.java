@@ -125,7 +125,6 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 		
 		
 		this.addListener((CanvasMouseUpListener)this);
-		this.addListener((CanvasMouseMoveListener)this);
 		this.addListener((CanvasMouseDownListener)this);
 		
 		this.setFont(Font.getFont(FONT.STANDARD));

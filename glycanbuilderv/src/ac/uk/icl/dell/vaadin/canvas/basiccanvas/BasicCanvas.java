@@ -2,17 +2,16 @@ package ac.uk.icl.dell.vaadin.canvas.basiccanvas;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontCharacter;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontPoint;
 import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.FontSegment;
+import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseDownListener;
 import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseUpListener;
-import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.CanvasMouseMoveListener;
 
-import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas;
-
-public class BasicCanvas extends Canvas implements CanvasMouseDownListener, CanvasMouseUpListener, CanvasMouseMoveListener{
+public class BasicCanvas extends Canvas implements CanvasMouseDownListener, CanvasMouseUpListener {
 	private static final long serialVersionUID = 1777004722553284089L;
 	
 	public Font font;
@@ -28,7 +27,6 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 	
 	public BasicCanvas(){
 		this.addListener((CanvasMouseUpListener)this);
-		this.addListener((CanvasMouseMoveListener)this);
 		this.addListener((CanvasMouseDownListener)this);
 		
 		selectionListeners=new ArrayList<SelectionListener>();
@@ -222,11 +220,6 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
     	for(SelectionListener listener:selectionListeners){
 			listener.recieveSelectionUpdate(x, y, 0, 0, false);
 		}
-	}
-
-	@Override
-	public void mouseMove(int x, int y) {
-		super.moveTo(x, y);
 	}
 
 	@Override
