@@ -8,12 +8,13 @@ import java.util.List;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.MessageDialogBox;
+import ac.uk.icl.dell.vaadin.glycanbuilder.GlycanBuilderWindow;
 
 import com.github.wolfie.refresher.Refresher;
 import com.github.wolfie.refresher.Refresher.RefreshListener;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.StartedEvent;
@@ -90,7 +91,7 @@ public abstract class NavigatorFileUpload {
 			public void uploadFailed(FailedEvent event){
 				failedEvent=event;
 				
-				if(file.exists()){
+				if(file != null && file.exists()){
 					file.delete();
 				}
 			}
@@ -103,7 +104,6 @@ public abstract class NavigatorFileUpload {
 			public void uploadStarted(StartedEvent event){
 				Component parent=upload.getParent();
 				if(parent instanceof ComponentContainer){
-					if(refresher==null){
 						refresher=new Refresher();
 						
 						refresher.addListener(new RefreshListener(){
@@ -113,7 +113,7 @@ public abstract class NavigatorFileUpload {
 							public void refresh(Refresher source){
 								
 								//((ComponentContainer) refresher.getParent()).removeComponent(refresher);
-								((ComponentContainer) refresher.getParent()).removeExtension(refresher);
+								refresher.getParent().removeExtension(refresher);
 								
 								if(failedEvent!=null){
 									uploadFailed(failedEvent);
@@ -128,18 +128,9 @@ public abstract class NavigatorFileUpload {
 								msg=null;
 							}
 						});
-					}else{
-						//Component refParent=refresher.getParent();
-						ClientConnector refParent=refresher.getParent();
-
-						if(refParent!=null){
-							//((ComponentContainer) refParent).removeComponent(refresher);
-							refParent.removeExtension(refresher);
-						}
-					}
-					
+										
 					//((ComponentContainer)parent).addComponent(refresher);
-					parent.getExtensions().add(refresher);
+					((GlycanBuilderWindow)UI.getCurrent()).addExtension(refresher);
 
 				}else{
 					new MessageDialogBox("Error", "Parent of upload component must be an instanceof ComponentContainer");

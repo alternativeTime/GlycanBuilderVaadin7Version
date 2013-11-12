@@ -30,6 +30,7 @@ import org.eurocarbdb.application.glycanbuilder.LoggerStorageIndex;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.Extension;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
@@ -64,6 +65,11 @@ public class GlycanBuilderWindow extends UI{
 		layout.addComponentAsFirst(theBuilder);
 		theBuilder.setSizeFull();
 		setContent(layout);
+	}
+	
+	public void addExtension (Extension extension)
+	{
+		super.addExtension(extension);
 	}
 	
 	public static void initialiseStaticResources(){
