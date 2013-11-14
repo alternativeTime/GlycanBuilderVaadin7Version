@@ -41,7 +41,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -95,11 +94,10 @@ public class GlycanBuilderWindow extends UI{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//sequence = sequence.replaceAll("\\n", "");
 				
 				System.err.println("Executing :" +callback+".run('"+sequence+"')");
 				JavaScript.eval(callback+".run(unescape('"+sequence+"'))");
-				//respondToExport(callback, sequence);
+				
             }
         });
 		
