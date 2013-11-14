@@ -19,20 +19,29 @@
 */
 package ac.uk.icl.dell.vaadin.glycanbuilder;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.servlet.annotation.WebServlet;
 
 import org.eurocarbdb.application.glycanbuilder.BuilderWorkspace;
+import org.eurocarbdb.application.glycanbuilder.GlycanParserFactory;
 import org.eurocarbdb.application.glycanbuilder.GlycanRendererAWT;
 import org.eurocarbdb.application.glycanbuilder.LogUtils;
 import org.eurocarbdb.application.glycanbuilder.LoggerStorage;
 import org.eurocarbdb.application.glycanbuilder.LoggerStorageImpl;
 import org.eurocarbdb.application.glycanbuilder.LoggerStorageIndex;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.Extension;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -58,6 +67,42 @@ public class GlycanBuilderWindow extends UI{
 
 	@Override
 	public void init(VaadinRequest request){
+		JavaScript.getCurrent().addFunction("exportCanvas", new JavaScriptFunction() {
+            public void call(JSONArray arguments) throws JSONException {
+                //Notification.show(arguments.getString(1));
+            	//0 - format
+            	//1 - callback
+            	String type= arguments.getString(0);
+				String sequence=null;
+				String callback =  arguments.getString(1);
+				if(type.equals("glycoct_condensed")){
+					sequence=theBuilder.theCanvas.theCanvas.theDoc.toGlycoCTCondensed();
+				}else if(type.equals("glycoct")){
+					sequence=theBuilder.theCanvas.theCanvas.theDoc.toGlycoCT();
+				}else{
+					try {
+						sequence=theBuilder.theCanvas.theCanvas.theDoc.toString(GlycanParserFactory.getParser(type));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(sequence == null) sequence = "sequence is null";
+				try {
+					sequence = URLEncoder.encode(sequence, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//sequence = sequence.replaceAll("\\n", "");
+				
+				System.err.println("Executing :" +callback+".run('"+sequence+"')");
+				JavaScript.eval(callback+".run(unescape('"+sequence+"'))");
+				//respondToExport(callback, sequence);
+            }
+        });
+		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSizeFull();
@@ -67,6 +112,12 @@ public class GlycanBuilderWindow extends UI{
 		setContent(layout);
 	}
 	
+	public void respondToExport(String callback, String response) {
+		response = response.replaceAll("\\n", "");
+		
+		System.err.println("Executing :" +callback+".run('"+response+"')");
+		JavaScript.eval(callback+".run('"+response+"')");
+	}
 	public void addExtension (Extension extension)
 	{
 		super.addExtension(extension);
