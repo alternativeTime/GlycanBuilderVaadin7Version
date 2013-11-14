@@ -21,7 +21,6 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 	private int mouseDownYValue = 0;
 	
 	private List<SelectionListener> selectionListeners;
-	private List<ExportListener> exportListeners;
 	
 	public boolean awaitingInstructions=false;
 	
@@ -30,23 +29,11 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 		this.addListener((CanvasMouseDownListener)this);
 		
 		selectionListeners=new ArrayList<SelectionListener>();
-		exportListeners=new ArrayList<ExportListener>();
 	}
 	
-	public void addExportListener(ExportListener listener){
-		exportListeners.add(listener);
-	}
-	
-	public void removeExportListener(ExportListener listener){
-		exportListeners.remove(listener);
-	}
 	
 	public interface SelectionListener{
 		public void recieveSelectionUpdate(double x, double y, double width, double height,boolean mouseMoved);
-	}
-	
-	public interface ExportListener {
-		public void exportRequest(String type);
 	}
 	
 	/**
@@ -241,12 +228,5 @@ public class BasicCanvas extends Canvas implements CanvasMouseDownListener, Canv
 	public void addSelectionListener(SelectionListener listener){
 		selectionListeners.add(listener);
 	}
-		
-	
-    public void notifyExportListeners(String type){
-    	for(ExportListener listener:exportListeners){
-    		listener.exportRequest(type);
-    	}
-    }
 
 }
