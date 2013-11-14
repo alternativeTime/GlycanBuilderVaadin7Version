@@ -19,18 +19,14 @@
 */
 package ac.uk.icl.dell.vaadin.glycanbuilder;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
 import org.eurocarbdb.application.glycanbuilder.BuilderWorkspace;
-import org.eurocarbdb.application.glycanbuilder.Glycan;
 import org.eurocarbdb.application.glycanbuilder.GlycanParserFactory;
 import org.eurocarbdb.application.glycanbuilder.LogUtils;
 import org.eurocarbdb.application.glycanbuilder.Residue;
-
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.SimpleFileMenu;
@@ -44,10 +40,7 @@ import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Panel;
@@ -100,7 +93,6 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		theAppMenu.setModified();
 		
 		theCanvas=new VaadinGlycanCanvas();
-		theCanvas.setSizeFull();
 		
 		theCanvas.enableMouseSelectionRectangle(true);
 		theCanvas.theCanvas.addResidueHistoryListener(this);	
@@ -110,10 +102,12 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		
 		initToolBars();
 		Panel panel = new Panel();
-		panel.setSizeFull();
 		panel.setContent(theCanvas);
+		theCanvas.setSizeFull();
+		theCanvas.setParent(panel);
 		mainLayout.addComponent(panel);
 		mainLayout.setExpandRatio(panel, 1);
+		panel.setSizeFull();
 		
 		theCanvas.theCanvas.addNotationListener(new NotationChangedListener() {
 			@Override

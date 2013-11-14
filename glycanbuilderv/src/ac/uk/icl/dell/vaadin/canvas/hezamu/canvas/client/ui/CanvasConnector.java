@@ -51,6 +51,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 	boolean mouseDown = false;
 	private boolean enableMouseSelectionMode = false;
 	private int mouseDownPoint_x,mouseDownPoint_y;
+		
 
 	private final Map<String, CanvasGradient> gradients = new HashMap<String, CanvasGradient>();
 
@@ -720,6 +721,20 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					}
 				});
 			}
+
+			@Override
+			public void setMinimumSize(int width, int height) {
+				
+				if (width > getWidget().getCoordinateSpaceWidth())
+				{
+					getWidget().setWidth(width + "px");
+				}
+				if (height > getWidget().getCoordinateSpaceHeight())
+				{
+					getWidget().setHeight(height + "px");					
+				}
+			}
+
 		};
 		registerRpc(CanvasClientRpc.class, clientRpc);
 	}

@@ -131,7 +131,7 @@ public interface CanvasClientRpc extends ClientRpc {
 	// specified control points that represent a cubic Bzier curve.
 	//
 	// A cubic bezier curve requires three points. The first two points are
-	// control points that are used in the cubic B���zier calculation and the last
+	// control points that are used in the cubic B���������zier calculation and the last
 	// point is the ending point for the curve. The starting point for the curve
 	// is the last point in the current path. If a path does not exist, use the
 	// beginPath() and moveTo() methods to define a starting point.
@@ -141,4 +141,6 @@ public interface CanvasClientRpc extends ClientRpc {
 	public void textAlign(String textAlign);
 
 	public void fillText(String text, double x, double y);
+
+	public void setMinimumSize(int width, int height);
 }

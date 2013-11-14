@@ -52,13 +52,13 @@ import org.eurocarbdb.application.glycanbuilder.ResidueType;
 import org.eurocarbdb.application.glycanbuilder.SVGUtils;
 import org.eurocarbdb.application.glycanbuilder.TerminalDictionary;
 import org.eurocarbdb.application.glycanbuilder.TerminalType;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
-import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font.FONT;
 
 import ac.uk.icl.dell.vaadin.LocalResourceWatcher;
 import ac.uk.icl.dell.vaadin.MessageDialogBox;
 import ac.uk.icl.dell.vaadin.ProducesLocalResources;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.BasicCanvas;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font;
+import ac.uk.icl.dell.vaadin.canvas.basiccanvas.font.Font.FONT;
 import ac.uk.icl.dell.vaadin.glycanbuilder.MassOptionsDialog.MassOptionListener;
 import ac.uk.icl.dell.vaadin.navigator7.pages.buildingblocks.NavigatorFileUpload;
 
@@ -67,8 +67,6 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
-import com.vaadin.server.PaintException;
-import com.vaadin.server.PaintTarget;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
@@ -78,9 +76,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.NativeButton;
@@ -88,6 +84,7 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -1286,7 +1283,7 @@ public class VaadinGlycanCanvas extends BasicCanvas implements BasicCanvas.Selec
 			
 			int proposedWidth=theCanvas.getWidth();
 			
-			//TODO-PP setMinimumSize(proposedWidth, proposedHeight);
+			setMinimumSize(proposedWidth, proposedHeight);
 		}
 	}
 	

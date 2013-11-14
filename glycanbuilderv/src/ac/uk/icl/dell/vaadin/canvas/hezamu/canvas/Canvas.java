@@ -820,6 +820,10 @@ public class Canvas extends AbstractComponent {
         rpc.enableMouseSelectionRectangle(enable);
     }
 	
+	public void setMinimumSize(int width, int height) {
+		rpc.setMinimumSize(width, height);
+	}
+	
 	/**
 	 * The listener interface for receiving canvasImageLoad events. The class
 	 * that is interested in processing a canvasImageLoad event implements this
