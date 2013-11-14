@@ -19,6 +19,8 @@
 */
 package ac.uk.icl.dell.vaadin;
 
+import java.net.URI;
+
 import ac.uk.icl.dell.vaadin.menu.ApplicationMenu;
 import ac.uk.icl.dell.vaadin.menu.DynamicMenuImpl;
 
@@ -74,7 +76,9 @@ public class SimpleFileMenu extends DynamicMenuImpl implements ApplicationMenu{
 
 			@Override
 			public void menuSelected(MenuItem selectedItem){
-				UI.getCurrent().close();
+				URI currentLocation = UI.getCurrent().getPage().getLocation();
+				UI.getCurrent().getPage().setLocation(currentLocation.toString() + "?restartApplication");
+				UI.getCurrent().getPage().setLocation(currentLocation);
 			}
 		});
 		
