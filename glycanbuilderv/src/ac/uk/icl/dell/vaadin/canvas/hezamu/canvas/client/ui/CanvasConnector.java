@@ -38,10 +38,11 @@ import com.vaadin.client.ui.SimpleManagedLayout;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
 
-@SuppressWarnings("serial")
 @Connect(ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.Canvas.class)
 public class CanvasConnector extends AbstractComponentConnector implements
 		SimpleManagedLayout, PostLayoutListener {
+	private static final long serialVersionUID = -2782526705807976265L;
+
 	private boolean needsDraw = false;
 
 	private final List<Command> commands;
@@ -119,7 +120,6 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			public void onMouseDown(MouseDownEvent event) {				
 				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
 				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
-				//TODO
 				if(enableMouseSelectionMode){
 					mouseDownPoint_x=x;
 					mouseDownPoint_y=y;
@@ -130,11 +130,8 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					mouseMoveRegistration = getWidget().addMouseMoveHandler(mouseMoveHandler);
 					
 				}
-				else
-				{
-					//TODO: mouse down event
-				}
-			rpc.mouseDown(x,y);
+
+				rpc.mouseDown(x,y);
 			}
 		});
 
@@ -145,13 +142,10 @@ public class CanvasConnector extends AbstractComponentConnector implements
 
 				int x = event.getClientX() - DOM.getAbsoluteLeft(getWidget().getElement());
 				int y = event.getClientY() - DOM.getAbsoluteTop(getWidget().getElement());
-				//TODO
 				if(enableMouseSelectionMode){
 					clientRpc.daveClear();
 					clientRpc.redraw();
 					
-					//x=startX > x ? x: startX;
-					//y=startY > y ? y: startY;
 					if (mouseMoveRegistration != null) {
 						mouseMoveRegistration.removeHandler();
 						mouseMoveRegistration = null;
@@ -161,10 +155,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 					//cachedScrollTop=getWidget().getElement().getParentElement().getScrollTop();
 					//cachedScrollLeft=getWidget().getElement().getParentElement().getScrollLeft();
 				}										
-				else{
-					//TODO: mouse up event
-				}
-					rpc.mouseUp(x, y);
+				rpc.mouseUp(x, y);
 				}			
 		});
 		
@@ -663,15 +654,7 @@ public class CanvasConnector extends AbstractComponentConnector implements
 			@Override
 			public void daveClear(){
 				ctx.setTransform(1,0,0,1,0,0);
-				ctx.clearRect(0, 0,  getWidget().getCoordinateSpaceWidth(), getWidget().getCoordinateSpaceHeight());
-				/*runCommand(new Command() {
-					@Override
-					public void execute() {
-						ctx.setTransform(1,0,0,1,0,0);
-						ctx.clearRect(0, 0, getWidget().getCoordinateSpaceHeight(), getWidget().getCoordinateSpaceWidth());		
-					}
-				});*/
-				
+				ctx.clearRect(0, 0,  getWidget().getCoordinateSpaceWidth(), getWidget().getCoordinateSpaceHeight());				
 			}
 
 			@Override

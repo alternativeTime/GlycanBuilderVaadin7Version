@@ -14,7 +14,6 @@ import ac.uk.icl.dell.vaadin.canvas.hezamu.canvas.client.ui.CanvasServerRpc;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
 
-// TODO: Auto-generated Javadoc
 /**
  * HTML5 Canvas add-on for Vaadin 7.
  * 

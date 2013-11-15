@@ -128,11 +128,10 @@ public class GlycanBuilder extends CustomComponent implements com.vaadin.ui.Wind
 		initStructureMenu();
 		setCompositionRoot(mainLayout);
 		
-		//TODO:create minimumSize method.
 		//TODO-PP theCanvas.setMinimumSize(1, 1);
 		
 		theResidueCanvas.setSizeFull();
-		// TODO-PPtheResidueCanvas.setMinimumSize(1, 25);
+		// TODO-PP theResidueCanvas.setMinimumSize(1, 25);
 	}
 	
 	public static void removeMenuItems(com.vaadin.ui.MenuBar.MenuItem structureItem2){
