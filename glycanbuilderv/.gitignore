@@ -1,5 +1,4 @@
 WebContent/VAADIN/widgetsets/*
-WebContent/WEB-INF/lib/*
 build/*
 bin/*
 lib/*

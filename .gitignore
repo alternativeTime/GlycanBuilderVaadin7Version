@@ -1,7 +1,5 @@
 WebContent/VAADIN/*
-WebContent/WEB-INF/lib/*
 build/*
 bin/*
-lib/*
 /nbproject/private/
 !/WebContent/VAADIN/themes/ucdb_2011theme/styles.css
