@@ -6,6 +6,10 @@ If you have arrived here expecting to be able to draw some glycan structures and
 
 If you are using GlycanBuilder to aid your research or to prepare figures for inclusion in publications please cite the following paper (a new one covering GlycanBuilderV should hopefully be published shortly).
 `Ceroni A, Dell A, Haslam SM. The GlycanBuilder: a fast, intuitive and flexible software tool for building and displaying glycan structures. Source Code Biol Med. 2007 Aug 7;2:3. PubMed PMID: 17683623; PubMed Central PMCID: PMC1994674.`
+`Damerell D, Ceroni A, Maass K, Ranzinger R, Dell A, Haslam SM. The GlycanBuilder and GlycoWorkbench glycoinformatics tools: updates and new developments. Biol Chem. 2012 Nov;393(11):1357-62. PubMed PMID: 23109548`
+
+The latest version of GlycanBuilder is compatiable with Vaadin7. This work was supported by the Australian NeCTAR project. To recognise this work please cite UniCarbKB:
+`Campbell MP, Peterson R, Mariethoz J, Gasteiger E, Akune Y, Aoki-Kinoshita KF, Lisacek F, Packer NH. UniCarbKB: building a knowledge platform for glycoproteomics. Nucleic Acids Res. 2014 Jan 1;42(1):D215-21. PubMed PMID: 24234447`
 
 # Further Information
 
