@@ -9,7 +9,7 @@ If you are using GlycanBuilder to aid your research or to prepare figures for in
 `Damerell D, Ceroni A, Maass K, Ranzinger R, Dell A, Haslam SM. The GlycanBuilder and GlycoWorkbench glycoinformatics tools: updates and new developments. Biol Chem. 2012 Nov;393(11):1357-62. PubMed PMID: 23109548`
 
 The latest version of GlycanBuilder is compatiable with Vaadin7. This work was supported by the Australian NeCTAR project. To recognise this work please cite UniCarbKB:
-`Campbell MP, Peterson R, Mariethoz J, Gasteiger E, Akune Y, Aoki-Kinoshita KF, Lisacek F, Packer NH. UniCarbKB: building a knowledge platform for glycoproteomics. Nucleic Acids Res. 2014 Jan 1;42(1):D215-21. PubMed PMID: 24234447`
+<code>Campbell MP, Peterson R, Mariethoz J, Gasteiger E, Akune Y, Aoki-Kinoshita KF, Lisacek F, Packer NH. UniCarbKB: building a knowledge platform for glycoproteomics. Nucleic Acids Res. 2014 Jan 1;42(1):D215-21. PubMed PMID: 24234447</code>
 
 # Further Information
 
