@@ -157,3 +157,7 @@ Finally setup Apache to proxy access to tomcat (hopefully it's obvious what sett
 
 
 After you have started both Apache and TomCat you should be able to see glycan builder in action by navigating to the web page you created above. You can move glycan builder around in a web page by moving the div element where the id equals fb. Hopefully you can also see how the submit button in the above example used a call back to export the canvas in GlycoCT condensed format.
+
+##Funding
+GlycanBuilder v1.0 was supported by the EUROCarbDB project
+GlycanBuilder v2.0 was developed at Imperial College with funding from the BBSRC and is now actively maintained by Macquarie University via The National eResearch Collaboration Tools and Resources (NeCTAR project RT016) project.
