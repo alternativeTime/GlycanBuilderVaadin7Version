@@ -21,7 +21,7 @@ Vaadin is a web development framework that functions on top of the Google Web To
 
 This project represents a port of the popular GlycanBuilder software tool from the native Java Swing/Applet environment to the Vaadin RIA platform. The two main advantages of this port are that it can be run in a web browser without any plug-ins, and providers a UI experience that doesn't break the visual flow of a web page in the same way that many Applets do.
 
-GlycanBuilderV shares a common code base with both the standalone and Applet versions of the GlycanBuilder software tool, and was until recently present in the G[GlycanBuilder Google Code site](http://code.google.com/p/glycanbuilder) under the sub directory [VaadinGlycanBuilder](http://code.google.com/p/glycanbuilder/source/browse/#hg%2FVaadinGlycanBuilder).
+GlycanBuilderV shares a common code base with both the standalone and Applet versions of the GlycanBuilder software tool, and was until recently present in the GlycanBuilder Google Code site](http://code.google.com/p/glycanbuilder) under the sub directory [VaadinGlycanBuilder](http://code.google.com/p/glycanbuilder/source/browse/#hg%2FVaadinGlycanBuilder).
 
 ## Code checkout and set up
 
@@ -159,5 +159,12 @@ Finally setup Apache to proxy access to tomcat (hopefully it's obvious what sett
 After you have started both Apache and TomCat you should be able to see glycan builder in action by navigating to the web page you created above. You can move glycan builder around in a web page by moving the div element where the id equals fb. Hopefully you can also see how the submit button in the above example used a call back to export the canvas in GlycoCT condensed format.
 
 ##Funding
-GlycanBuilder v1.0 was supported by the EUROCarbDB project
-GlycanBuilder v2.0 was developed at Imperial College with funding from the BBSRC and is now actively maintained by Macquarie University via The National eResearch Collaboration Tools and Resources (NeCTAR project RT016) project.
+GlycanBuilder v1.0 was supported by the EUROCarbDB project (Anne Dell and Stuart Haslam).
+GlycanBuilder v2.0 was developed at Imperial College with funding from the BBSRC. 
+Updates to the latest version of Vaadin were made by Macquarie University via The National eResearch Collaboration Tools and Resources (NeCTAR project RT016) project and in collaboration with Imperial College.
+
+##Developers
+Alessio Ceroni
+David Damerell
+Kai Maass
+Matthew Campbell
