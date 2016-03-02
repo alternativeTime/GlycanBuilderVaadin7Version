@@ -43,6 +43,11 @@ cd GlycanBuilderVaadin7Version/glycanbuilderv
 
 To run GlycanBuilderV from within Eclipse make sure you have a Servlet container set up (recommend Tomcat 7.0.47 or newer in 7 branch) in Eclipse (File->New->Server). Once this is done simply Right-Click on the GlycanBuilderV project and click "Run as"->"Run on server" and select the server you just set up. To see the running web application, open up your browser of choice and navigate to "http://localhost:8080/GlycanBuilder".
 
+##Compiling the Widget Set
+
+In order to compile the Widget Set, after setting up Eclipse, please follow the link below.
+[Link to Vaadin Documentation](https://vaadin.com/docs/-/part/framework/gwt/gwt-eclipse.html)
+
 ## Integrating GlycabBuilderV into an existing web page (http://unicarbkb.org/builder#)
 
 The following is a brief set of instructions to install this component and embed it in another web page. Note that we ask Apache to proxy access to Tomcat: this is important as modern web browsers will refuse to load an iframe unless both the hostname and port match that of the host web page (that you are embedding glycan builder into).
@@ -157,6 +162,10 @@ Finally setup Apache to proxy access to tomcat (hopefully it's obvious what sett
 
 
 After you have started both Apache and TomCat you should be able to see glycan builder in action by navigating to the web page you created above. You can move glycan builder around in a web page by moving the div element where the id equals fb. Hopefully you can also see how the submit button in the above example used a call back to export the canvas in GlycoCT condensed format.
+
+##CORS Enabled Version 
+
+The CORS-Enabled version of GlycanBuilder is allowing all cross-origin requests, in order to use it clone the cors-enabled branch. Please restrict the cross-origin requests to your domain changing the "isAllowedRequestOrigin" method in GlycanBuilderWindows.java before any usage. 
 
 ##Funding
 GlycanBuilder v1.0 was supported by the EUROCarbDB project (Anne Dell and Stuart Haslam).
